@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Building this Blog &mdash; Github Blog</title>
+  <meta name="author" content="Dallas Card">
+
+
+
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="./favicon.png" rel="icon">
+
+  <link href="./theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="./">Github Blog</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+<ul class="main-navigation">
+      <li class="active">
+        <a href="./category/meta.html">Meta</a>
+      </li>
+      <li >
+        <a href="./category/test.html">Test</a>
+      </li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">Building this Blog</h1>
+    <p class="meta">
+<time datetime="2016-11-20T03:14:00-08:00" pubdate>Sun 20 November 2016</time>    </p>
+</header>
+
+  <div class="entry-content"><h2>Getting set up on Github</h2>
+<p>On Github, create a new, empty, public repo: \&lt;username>.github.io</p>
+<p>Create a second repo to keep source files (this one can be public or private, and you can add a Python .gitignore)</p>
+<p>Clone the second repo and cd into it.</p>
+<h2>Creating a static blog with pelican</h2>
+<p>Install pelican and markdown:</p>
+<div class="highlight"><pre><span></span>$ pip install pelican
+$ pip install markdown
+</pre></div>
+
+
+<p>Run <code>pelican-quickstart</code>. You can enter a name, author and time zone, all of which can be changed later. Otherwise, you can accept the defaults everywhere except where for specifying a URL prefix which should be "n".</p>
+<div class="highlight"><pre><span></span>$ git clone https://github.com/dallascard/github_blog.git
+$ <span class="nb">cd</span> github_blog
+$ pelican-quickstart
+Welcome to pelican-quickstart v3.6.3.
+
+This script will <span class="nb">help</span> you create a new Pelican-based website.
+
+Please answer the following questions so this script can generate the files
+needed by Pelican.
+
+
+&gt; Where <span class="k">do</span> you want to create your new web site? <span class="o">[</span>.<span class="o">]</span> 
+&gt; What will be the title of this web site? Github Blog
+&gt; Who will be the author of this web site? Dallas Card
+&gt; What will be the default language of this web site? <span class="o">[</span>en<span class="o">]</span> 
+&gt; Do you want to specify a URL prefix? e.g., http://example.com   <span class="o">(</span>Y/n<span class="o">)</span> n
+&gt; Do you want to <span class="nb">enable</span> article pagination? <span class="o">(</span>Y/n<span class="o">)</span> 
+&gt; How many articles per page <span class="k">do</span> you want? <span class="o">[</span>10<span class="o">]</span> 
+&gt; What is your <span class="nb">time</span> zone? <span class="o">[</span>Europe/Paris<span class="o">]</span> US/Pacific
+&gt; Do you want to generate a Fabfile/Makefile to automate generation and publishing? <span class="o">(</span>Y/n<span class="o">)</span> 
+&gt; Do you want an auto-reload <span class="p">&amp;</span> simpleHTTP script to assist with theme and site development? <span class="o">(</span>Y/n<span class="o">)</span> 
+&gt; Do you want to upload your website using FTP? <span class="o">(</span>y/N<span class="o">)</span> 
+&gt; Do you want to upload your website using SSH? <span class="o">(</span>y/N<span class="o">)</span> 
+&gt; Do you want to upload your website using Dropbox? <span class="o">(</span>y/N<span class="o">)</span> 
+&gt; Do you want to upload your website using S3? <span class="o">(</span>y/N<span class="o">)</span> 
+&gt; Do you want to upload your website using Rackspace Cloud Files? <span class="o">(</span>y/N<span class="o">)</span> 
+&gt; Do you want to upload your website using GitHub Pages? <span class="o">(</span>y/N<span class="o">)</span> 
+Done. Your new project is available at /Users/dcard/Projects/blogs/github_blog
+</pre></div>
+
+
+<p>This will create a series of subdirectories. The most important files and folders to know about are the content subfolder, where you will place markdown posts to be rendered, and the pelicanconf.py file, where you can control various aspects of the blog (including name, author, etc.)</p>
+<h2>Creating content</h2>
+<p>Make a first post in the content subdirectory:</p>
+<div class="highlight"><pre><span></span>$ <span class="nb">cd</span> content
+</pre></div>
+
+
+<p>Create a new file called first_post.md and add the following lines to it. (Make sure there are no blank lines at the top).</p>
+<div class="highlight"><pre><span></span><span class="n">Title</span><span class="o">:</span> <span class="n">first_post</span>
+<span class="n">Date</span><span class="o">:</span> <span class="mi">2014</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">13</span> <span class="mi">18</span><span class="o">:</span><span class="mi">32</span>
+<span class="n">Category</span><span class="o">:</span> <span class="n">Test</span>
+
+<span class="n">Hello</span> <span class="n">world</span> <span class="n">from</span> <span class="n">Pelican</span><span class="o">!</span>
+</pre></div>
+
+
+<p>Return to the main directory</p>
+<div class="highlight"><pre><span></span>$ <span class="nb">cd</span> ..
+</pre></div>
+
+
+<h2>Building and serving the blog locally</h2>
+<p>To build the blog</p>
+<div class="highlight"><pre><span></span>$ make html
+</pre></div>
+
+
+<p>To serve the site (to http://localhost:8000)</p>
+<div class="highlight"><pre><span></span>$ make serve
+</pre></div>
+
+
+<p>You should now be able to view the blog in a browser at http://localhost:8000</p>
+<p>To shutdown the server, use Ctrl-c</p>
+<p>Optionally, you can run <code>make regenerate</code> to start a process that will automatically rebuild the site upon changes, or a single process that will automatically rebuild and serve the site (<code>make devserver</code>). To stop make devserver, use:</p>
+<div class="highlight"><pre><span></span>$ ./develop_server.sh stop
+</pre></div>
+
+
+<h2>Changing themes</h2>
+<p>To change themes, fork and clone the repo of pelican themes (https://github.com/getpelican/pelican-themes) or a specific theme. We'll go with pelican-octopress-theme from https://github.com/duilio/pelican-octopress-theme. (Remember to fork the repo to be able to make and save changes).</p>
+<p>Add the theme to the list of pelican themes:</p>
+<div class="highlight"><pre><span></span>$ pelican-themes --install pelican-octopress-theme
+</pre></div>
+
+
+<p>In the main directory, edit the pelicanconf.py by adding the following line:</p>
+<div class="highlight"><pre><span></span><span class="nv">THEME</span> <span class="o">=</span> <span class="s2">&quot;pelican-octopress-theme&quot;</span>
+</pre></div>
+
+
+<p>The blog should now reflect the new theme when you rebuild and reload the page. (Note that sometimes my Chrome plugins caused the theme to fail to load properly at localhost:8000; try using another browser for displaying locally).</p>
+<h2>Using plugins</h2>
+<p>A large set of plugins enhance pelican's functionality, for example, displaying equations.</p>
+<p>Clone the pelican plugins repo (https://github.com/getpelican/pelican-plugins)</p>
+<p>Edit the pelicanconf.py file to add the following lines:</p>
+<div class="highlight"><pre><span></span><span class="nv">PLUGIN_PATHS</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;../pelican-plugins/&#39;</span><span class="o">]</span>
+<span class="nv">PLUGINS</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;render_math&#39;</span><span class="o">]</span>
+</pre></div>
+
+
+<p><span class="math">\(\LaTeX\)</span> math should now render properly: <span class="math">\(x_i^2 = \sin(y)\)</span></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">
+        Dallas Card
+    </span>
+  </span>
+<time datetime="2016-11-20T03:14:00-08:00" pubdate>Sun 20 November 2016</time>  <span class="categories">
+    <a class='category' href='./category/meta.html'>Meta</a>
+  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="./first_post.html">first_post</a>
+      </li>
+      <li class="post">
+          <a href="./building-this-blog.html">Building this Blog</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="./category/meta.html">Meta</a></li>
+        <li><a href="./category/test.html">Test</a></li>
+    </ul>
+  </section>
+ 
+
+  <section>
+  <h1>Tags</h1>
+  </section>
+
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="#" target="_blank">You can add links in your config file</a></li>
+            <li><a href="#" target="_blank">Another social link</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+            <li><a href="#" target="_blank">You can modify those links in your config file</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2016  Dallas Card &mdash;
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  <script src="./theme/js/modernizr-2.0.js"></script>
+  <script src="./theme/js/ender.js"></script>
+  <script src="./theme/js/octopress.js" type="text/javascript"></script>
+</body>
+</html>
