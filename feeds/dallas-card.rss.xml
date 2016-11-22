@@ -1,199 +1,146 @@
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Building this Blog &mdash; Github Blog</title>
-  <meta name="author" content="Dallas Card">
-
-
-
-
-
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-    <link href="/favicon.png" rel="icon">
-
-  <link href="/theme/css/main.css" media="screen, projection"
-        rel="stylesheet" type="text/css">
-
-  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
-        rel="stylesheet" type="text/css">
-  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
-        rel="stylesheet" type="text/css">
-</head>
-
-<body>
-  <header role="banner"><hgroup>
-  <h1><a href="/">Github Blog</a></h1>
-</hgroup></header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-</ul>
-
-
-<ul class="main-navigation">
-      <li class="active">
-        <a href="/category/meta.html">Meta</a>
-      </li>
-</ul></nav>
-  <div id="main">
-    <div id="content">
-<div>
-  <article class="hentry" role="article">
-<header>
-      <h1 class="entry-title">Building this Blog</h1>
-    <p class="meta">
-<time datetime="2016-11-20T03:14:00-08:00" pubdate>Sun 20 November 2016</time>    </p>
-</header>
-
-  <div class="entry-content"><p>Like many people out there, I've decided to use Pelican to manage a static blog hosted on Github. As is traditional, my first post is an overview of how I set this up.</p>
-<p>All of this information is available elsewhere, but not all in one place. I wrote this up mostly as a record for myself, but also in case anyone else is trying to accomplish the same thing.</p>
-<h2>Requirements</h2>
-<p>I'll assume that you are familiar with git, Github, python, and markdown, although you don't need to be an expert is any of these. The main thing is knowing how to set up a repo on Github, manage it locally, and to have python installed.</p>
-<h2>Getting set up on Github</h2>
-<p>On Github, create a new, empty, public repo: username.github.io where username is your Github username. For me this is <code>dallascard.github.io</code></p>
-<p>Next, create a second repo to keep source files for the blog (this one can be public or private, and you may want to add a python .gitignore)</p>
-<p>Clone the second repo locally and <code>cd</code> into it. I will refer to this as the main directory of the blog, and all commands can be run from within it, except where otherwise noted.</p>
-<h2>Creating a static blog with pelican</h2>
-<p>Start by installing pelican and markdown with pip:</p>
-<div class="highlight"><pre><span></span>$ pip install pelican
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Github Blog</title><link>/</link><description></description><lastBuildDate>Sun, 20 Nov 2016 03:14:00 -0800</lastBuildDate><item><title>Building this Blog</title><link>/building-this-blog.html</link><description>&lt;p&gt;Like many people out there, I've decided to use Pelican to manage a static blog hosted on Github. As is traditional, my first post is an overview of how I set this up.&lt;/p&gt;
+&lt;p&gt;All of this information is available elsewhere, but not all in one place. I wrote this up mostly as a record for myself, but also in case anyone else is trying to accomplish the same thing.&lt;/p&gt;
+&lt;h2&gt;Requirements&lt;/h2&gt;
+&lt;p&gt;I'll assume that you are familiar with git, Github, python, and markdown, although you don't need to be an expert is any of these. The main thing is knowing how to set up a repo on Github, manage it locally, and to have python installed.&lt;/p&gt;
+&lt;h2&gt;Getting set up on Github&lt;/h2&gt;
+&lt;p&gt;On Github, create a new, empty, public repo: username.github.io where username is your Github username. For me this is &lt;code&gt;dallascard.github.io&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Next, create a second repo to keep source files for the blog (this one can be public or private, and you may want to add a python .gitignore)&lt;/p&gt;
+&lt;p&gt;Clone the second repo locally and &lt;code&gt;cd&lt;/code&gt; into it. I will refer to this as the main directory of the blog, and all commands can be run from within it, except where otherwise noted.&lt;/p&gt;
+&lt;h2&gt;Creating a static blog with pelican&lt;/h2&gt;
+&lt;p&gt;Start by installing pelican and markdown with pip:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pip install pelican
 $ pip install markdown
-</pre></div>
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>Next, run <code>pelican-quickstart</code> to set up a basic blog.</p>
-<p>You can enter a name, author and time zone, all of which can be changed later. Otherwise, you can accept the defaults everywhere except where for specifying a URL prefix, which should be "n".</p>
-<div class="highlight"><pre><span></span>$ git clone https://github.com/dallascard/github_blog.git
-$ <span class="nb">cd</span> github_blog
+&lt;p&gt;Next, run &lt;code&gt;pelican-quickstart&lt;/code&gt; to set up a basic blog.&lt;/p&gt;
+&lt;p&gt;You can enter a name, author and time zone, all of which can be changed later. Otherwise, you can accept the defaults everywhere except where for specifying a URL prefix, which should be "n".&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git clone https://github.com/dallascard/github_blog.git
+$ &lt;span class="nb"&gt;cd&lt;/span&gt; github_blog
 $ pelican-quickstart
 Welcome to pelican-quickstart v3.6.3.
 
-This script will <span class="nb">help</span> you create a new Pelican-based website.
+This script will &lt;span class="nb"&gt;help&lt;/span&gt; you create a new Pelican-based website.
 
 Please answer the following questions so this script can generate the files
 needed by Pelican.
 
 
-&gt; Where <span class="k">do</span> you want to create your new web site? <span class="o">[</span>.<span class="o">]</span> 
-&gt; What will be the title of this web site? Github Blog
-&gt; Who will be the author of this web site? Dallas Card
-&gt; What will be the default language of this web site? <span class="o">[</span>en<span class="o">]</span> 
-&gt; Do you want to specify a URL prefix? e.g., http://example.com   <span class="o">(</span>Y/n<span class="o">)</span> n
-&gt; Do you want to <span class="nb">enable</span> article pagination? <span class="o">(</span>Y/n<span class="o">)</span> 
-&gt; How many articles per page <span class="k">do</span> you want? <span class="o">[</span>10<span class="o">]</span> 
-&gt; What is your <span class="nb">time</span> zone? <span class="o">[</span>Europe/Paris<span class="o">]</span> US/Pacific
-&gt; Do you want to generate a Fabfile/Makefile to automate generation and publishing? <span class="o">(</span>Y/n<span class="o">)</span> 
-&gt; Do you want an auto-reload <span class="p">&amp;</span> simpleHTTP script to assist with theme and site development? <span class="o">(</span>Y/n<span class="o">)</span> 
-&gt; Do you want to upload your website using FTP? <span class="o">(</span>y/N<span class="o">)</span> 
-&gt; Do you want to upload your website using SSH? <span class="o">(</span>y/N<span class="o">)</span> 
-&gt; Do you want to upload your website using Dropbox? <span class="o">(</span>y/N<span class="o">)</span> 
-&gt; Do you want to upload your website using S3? <span class="o">(</span>y/N<span class="o">)</span> 
-&gt; Do you want to upload your website using Rackspace Cloud Files? <span class="o">(</span>y/N<span class="o">)</span> 
-&gt; Do you want to upload your website using GitHub Pages? <span class="o">(</span>y/N<span class="o">)</span> 
+&amp;gt; Where &lt;span class="k"&gt;do&lt;/span&gt; you want to create your new web site? &lt;span class="o"&gt;[&lt;/span&gt;.&lt;span class="o"&gt;]&lt;/span&gt; 
+&amp;gt; What will be the title of this web site? Github Blog
+&amp;gt; Who will be the author of this web site? Dallas Card
+&amp;gt; What will be the default language of this web site? &lt;span class="o"&gt;[&lt;/span&gt;en&lt;span class="o"&gt;]&lt;/span&gt; 
+&amp;gt; Do you want to specify a URL prefix? e.g., http://example.com   &lt;span class="o"&gt;(&lt;/span&gt;Y/n&lt;span class="o"&gt;)&lt;/span&gt; n
+&amp;gt; Do you want to &lt;span class="nb"&gt;enable&lt;/span&gt; article pagination? &lt;span class="o"&gt;(&lt;/span&gt;Y/n&lt;span class="o"&gt;)&lt;/span&gt; 
+&amp;gt; How many articles per page &lt;span class="k"&gt;do&lt;/span&gt; you want? &lt;span class="o"&gt;[&lt;/span&gt;10&lt;span class="o"&gt;]&lt;/span&gt; 
+&amp;gt; What is your &lt;span class="nb"&gt;time&lt;/span&gt; zone? &lt;span class="o"&gt;[&lt;/span&gt;Europe/Paris&lt;span class="o"&gt;]&lt;/span&gt; US/Pacific
+&amp;gt; Do you want to generate a Fabfile/Makefile to automate generation and publishing? &lt;span class="o"&gt;(&lt;/span&gt;Y/n&lt;span class="o"&gt;)&lt;/span&gt; 
+&amp;gt; Do you want an auto-reload &lt;span class="p"&gt;&amp;amp;&lt;/span&gt; simpleHTTP script to assist with theme and site development? &lt;span class="o"&gt;(&lt;/span&gt;Y/n&lt;span class="o"&gt;)&lt;/span&gt; 
+&amp;gt; Do you want to upload your website using FTP? &lt;span class="o"&gt;(&lt;/span&gt;y/N&lt;span class="o"&gt;)&lt;/span&gt; 
+&amp;gt; Do you want to upload your website using SSH? &lt;span class="o"&gt;(&lt;/span&gt;y/N&lt;span class="o"&gt;)&lt;/span&gt; 
+&amp;gt; Do you want to upload your website using Dropbox? &lt;span class="o"&gt;(&lt;/span&gt;y/N&lt;span class="o"&gt;)&lt;/span&gt; 
+&amp;gt; Do you want to upload your website using S3? &lt;span class="o"&gt;(&lt;/span&gt;y/N&lt;span class="o"&gt;)&lt;/span&gt; 
+&amp;gt; Do you want to upload your website using Rackspace Cloud Files? &lt;span class="o"&gt;(&lt;/span&gt;y/N&lt;span class="o"&gt;)&lt;/span&gt; 
+&amp;gt; Do you want to upload your website using GitHub Pages? &lt;span class="o"&gt;(&lt;/span&gt;y/N&lt;span class="o"&gt;)&lt;/span&gt; 
 Done. Your new project is available at /Users/dcard/Projects/blogs/github_blog
-</pre></div>
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>This will create a series of files and subdirectories. The most important files and folders to know about are the <code>content</code> subfolder, where you will place markdown posts to be rendered, and the <code>pelicanconf.py</code> file, where you can control various aspects of the blog (including name, author, etc.)</p>
-<h2>Creating content</h2>
-<p>To add posts, we simply place a new file in the <code>content</code> subdirectory. Specifically, we will use markdown to write our posts.</p>
-<p>Create a new file in <code>content</code> called <code>first_post.md</code> and put the following lines in it. (Make sure there are no blank lines at the top).</p>
-<div class="highlight"><pre><span></span><span class="n">Title</span><span class="o">:</span> <span class="n">first_post</span>
-<span class="n">Date</span><span class="o">:</span> <span class="mi">2014</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">13</span> <span class="mi">18</span><span class="o">:</span><span class="mi">32</span>
-<span class="n">Category</span><span class="o">:</span> <span class="n">Test</span>
+&lt;p&gt;This will create a series of files and subdirectories. The most important files and folders to know about are the &lt;code&gt;content&lt;/code&gt; subfolder, where you will place markdown posts to be rendered, and the &lt;code&gt;pelicanconf.py&lt;/code&gt; file, where you can control various aspects of the blog (including name, author, etc.)&lt;/p&gt;
+&lt;h2&gt;Creating content&lt;/h2&gt;
+&lt;p&gt;To add posts, we simply place a new file in the &lt;code&gt;content&lt;/code&gt; subdirectory. Specifically, we will use markdown to write our posts.&lt;/p&gt;
+&lt;p&gt;Create a new file in &lt;code&gt;content&lt;/code&gt; called &lt;code&gt;first_post.md&lt;/code&gt; and put the following lines in it. (Make sure there are no blank lines at the top).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Title&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;first_post&lt;/span&gt;
+&lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2014&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;13&lt;/span&gt; &lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt;
+&lt;span class="n"&gt;Category&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Test&lt;/span&gt;
 
-<span class="n">Hello</span> <span class="n">world</span> <span class="n">from</span> <span class="n">Pelican</span><span class="o">!</span>
-</pre></div>
-
-
-<h2>Building and serving the blog locally</h2>
-<p>To build the blog, run</p>
-<div class="highlight"><pre><span></span>$ make html
-</pre></div>
+&lt;span class="n"&gt;Hello&lt;/span&gt; &lt;span class="n"&gt;world&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;Pelican&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>To preview the site, run</p>
-<div class="highlight"><pre><span></span>$ make serve
-</pre></div>
+&lt;h2&gt;Building and serving the blog locally&lt;/h2&gt;
+&lt;p&gt;To build the blog, run&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ make html
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>You should now be able to view the blog in a browser at http://localhost:8000</p>
-<p>To shutdown the server, use Ctrl+c. Alternately, you can leave it running and simply re-run <code>make html</code> to rebuild, and then reload the page in your browser.</p>
-<p>There is also the possibility of using <code>make regenerate</code> to start a process that will automatically rebuild the site upon changes, or a single process that will automatically rebuild and serve the site (<code>make devserver</code>). To stop make devserver, use:</p>
-<div class="highlight"><pre><span></span>$ ./develop_server.sh stop
-</pre></div>
+&lt;p&gt;To preview the site, run&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ make serve
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<h2>Choosing a theme</h2>
-<p>To change themes, fork and clone the repo of pelican themes (<a href="https://github.com/getpelican/pelican-themes">https://github.com/getpelican/pelican-themes</a>) or a specific theme. We'll go with the Pelican Octopress theme from <a href="https://github.com/duilio/pelican-octopress-theme">https://github.com/duilio/pelican-octopress-theme</a>. (Remember to fork the repo to be able to make and save changes). Whichever you choose, clone the repo to a new directory, outside the blog directory.</p>
-<p>In the main directory of the blog, edit <code>pelicanconf.py</code> by adding the following line:</p>
-<div class="highlight"><pre><span></span><span class="nv">THEME</span> <span class="o">=</span> <span class="s2">&quot;../pelican-octopress-theme&quot;</span>
-</pre></div>
+&lt;p&gt;You should now be able to view the blog in a browser at http://localhost:8000&lt;/p&gt;
+&lt;p&gt;To shutdown the server, use Ctrl+c. Alternately, you can leave it running and simply re-run &lt;code&gt;make html&lt;/code&gt; to rebuild, and then reload the page in your browser.&lt;/p&gt;
+&lt;p&gt;There is also the possibility of using &lt;code&gt;make regenerate&lt;/code&gt; to start a process that will automatically rebuild the site upon changes, or a single process that will automatically rebuild and serve the site (&lt;code&gt;make devserver&lt;/code&gt;). To stop make devserver, use:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./develop_server.sh stop
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>The blog should now reflect the new theme when you rebuild and reload the page. (Note that sometimes Chrome failed to load the theme properly at localhost:8000; try using another browser if this is a problem for you).</p>
-<h2>Using plugins</h2>
-<p>A large set of plugins enhance pelican's functionality, such as the ability to display equations.</p>
-<p>Clone the pelican plugins repo (<a href="https://github.com/getpelican/pelican-plugins">https://github.com/getpelican/pelican-plugins</a>) to a new directory outside the blog directory.</p>
-<p>Edit the pelicanconf.py file for the blog to add the following lines:</p>
-<div class="highlight"><pre><span></span><span class="nv">PLUGIN_PATHS</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;../pelican-plugins/&#39;</span><span class="o">]</span>
-<span class="nv">PLUGINS</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;render_math&#39;</span><span class="o">]</span>
-</pre></div>
+&lt;h2&gt;Choosing a theme&lt;/h2&gt;
+&lt;p&gt;To change themes, fork and clone the repo of pelican themes (&lt;a href="https://github.com/getpelican/pelican-themes"&gt;https://github.com/getpelican/pelican-themes&lt;/a&gt;) or a specific theme. We'll go with the Pelican Octopress theme from &lt;a href="https://github.com/duilio/pelican-octopress-theme"&gt;https://github.com/duilio/pelican-octopress-theme&lt;/a&gt;. (Remember to fork the repo to be able to make and save changes). Whichever you choose, clone the repo to a new directory, outside the blog directory.&lt;/p&gt;
+&lt;p&gt;In the main directory of the blog, edit &lt;code&gt;pelicanconf.py&lt;/code&gt; by adding the following line:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;THEME&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;../pelican-octopress-theme&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p><span class="math">\(\LaTeX\)</span> math should now render properly: <span class="math">\(x_i^2 = \sin(y)\)</span></p>
-<h2>Connecting to Github</h2>
-<p>Pelican and Github work very nicely together, making for a seamless uplaod process.</p>
-<p>First, add, commit, and push the files in this repo. This stores the source files. This isn't strictly necessary, but why would you not want to backup your blog source files to Github? Before doing this, you may want to edit the <code>.gitignore</code> file to ignore the <code>output</code> subdirectory.</p>
-<p>Second, we want to push the html files that have been made by pelican to the github blog location. This is very simple, thanks to a tool called ghp-import. Start by installing it with pip:</p>
-<div class="highlight"><pre><span></span>pip install ghp-import
-</pre></div>
+&lt;p&gt;The blog should now reflect the new theme when you rebuild and reload the page. (Note that sometimes Chrome failed to load the theme properly at localhost:8000; try using another browser if this is a problem for you).&lt;/p&gt;
+&lt;h2&gt;Using plugins&lt;/h2&gt;
+&lt;p&gt;A large set of plugins enhance pelican's functionality, such as the ability to display equations.&lt;/p&gt;
+&lt;p&gt;Clone the pelican plugins repo (&lt;a href="https://github.com/getpelican/pelican-plugins"&gt;https://github.com/getpelican/pelican-plugins&lt;/a&gt;) to a new directory outside the blog directory.&lt;/p&gt;
+&lt;p&gt;Edit the pelicanconf.py file for the blog to add the following lines:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;PLUGIN_PATHS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;../pelican-plugins/&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nv"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;render_math&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>Once this is installed, just use these two command to push to the output to Github:</p>
-<div class="highlight"><pre><span></span>ghp-import output
+&lt;p&gt;&lt;span class="math"&gt;\(\LaTeX\)&lt;/span&gt; math should now render properly: &lt;span class="math"&gt;\(x_i^2 = \sin(y)\)&lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;Connecting to Github&lt;/h2&gt;
+&lt;p&gt;Pelican and Github work very nicely together, making for a seamless uplaod process.&lt;/p&gt;
+&lt;p&gt;First, add, commit, and push the files in this repo. This stores the source files. This isn't strictly necessary, but why would you not want to backup your blog source files to Github? Before doing this, you may want to edit the &lt;code&gt;.gitignore&lt;/code&gt; file to ignore the &lt;code&gt;output&lt;/code&gt; subdirectory.&lt;/p&gt;
+&lt;p&gt;Second, we want to push the html files that have been made by pelican to the github blog location. This is very simple, thanks to a tool called ghp-import. Start by installing it with pip:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install ghp-import
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once this is installed, just use these two command to push to the output to Github:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ghp-import output
 git push git@github.com:username/username.github.io.git gh-pages:master
-</pre></div>
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>Whenever your rebuild your blog, just re-run these two commands to upload the udpated html files.   </p>
-<h2>Modifying theme colors:</h2>
-<p>Octopress is a beautiful theme, but I'm not crazy about the dark colors they use for code snippets. Fortunately, they provide a "solarized" alternative.</p>
-<p>First, download the compass ruby charm:</p>
-<div class="highlight"><pre><span></span>gem install sass compass
-</pre></div>
+&lt;p&gt;Whenever your rebuild your blog, just re-run these two commands to upload the udpated html files.   &lt;/p&gt;
+&lt;h2&gt;Modifying theme colors:&lt;/h2&gt;
+&lt;p&gt;Octopress is a beautiful theme, but I'm not crazy about the dark colors they use for code snippets. Fortunately, they provide a "solarized" alternative.&lt;/p&gt;
+&lt;p&gt;First, download the compass ruby charm:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gem install sass compass
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>Then, change to the theme directory (<code>../pelican-octopress-theme</code>), and edit the file <code>sass/custom/_colors.scss</code></p>
-<p>To change to the "solarized" them, uncomment the line <code>$solarized: light;</code></p>
-<p>You are free to customize things as you like, but personally I am not a fan of the default yellow background for codeblocks used by the solarized Octopress theme. The key change for me to add or modify a line to say <code>$base3: #fefefe;</code>  (or a different color as you like).</p>
-<p>Once you have made these changes, recompile the theme with </p>
-<div class="highlight"><pre><span></span>compass compile
-</pre></div>
+&lt;p&gt;Then, change to the theme directory (&lt;code&gt;../pelican-octopress-theme&lt;/code&gt;), and edit the file &lt;code&gt;sass/custom/_colors.scss&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;To change to the "solarized" them, uncomment the line &lt;code&gt;$solarized: light;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You are free to customize things as you like, but personally I am not a fan of the default yellow background for codeblocks used by the solarized Octopress theme. The key change for me to add or modify a line to say &lt;code&gt;$base3: #fefefe;&lt;/code&gt;  (or a different color as you like).&lt;/p&gt;
+&lt;p&gt;Once you have made these changes, recompile the theme with &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;compass compile
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>Finally, change back to the blog directory, and recompile it with <code>make html</code>.</p>
-<p>When you reload the blog, you should now have a nice light background for the code blocks.</p>
-<h2>Support for iPython notebooks</h2>
-<p>One of my most desired features was to be able to embed iPython notebooks into my blog. There is a plugin that makes this relatively easy, although it is not perfectly compatible with every theme. As a result, the colors will not be identical to how they would appear in a Jupyter notebook. Nevertheless, it is still functional and easy to use.</p>
-<p>Edit the pelicanconf.py file again add add the following line:</p>
-<div class="highlight"><pre><span></span>MARKUP = (&#39;md&#39;, )
-</pre></div>
+&lt;p&gt;Finally, change back to the blog directory, and recompile it with &lt;code&gt;make html&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;When you reload the blog, you should now have a nice light background for the code blocks.&lt;/p&gt;
+&lt;h2&gt;Support for iPython notebooks&lt;/h2&gt;
+&lt;p&gt;One of my most desired features was to be able to embed iPython notebooks into my blog. There is a plugin that makes this relatively easy, although it is not perfectly compatible with every theme. As a result, the colors will not be identical to how they would appear in a Jupyter notebook. Nevertheless, it is still functional and easy to use.&lt;/p&gt;
+&lt;p&gt;Edit the pelicanconf.py file again add add the following line:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;MARKUP = (&amp;#39;md&amp;#39;, )
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>Then change the line specifying the plugins to:</p>
-<div class="highlight"><pre><span></span>PLUGINS = [&#39;render_math&#39;, &#39;liquid.ipynb&#39;]
-</pre></div>
+&lt;p&gt;Then change the line specifying the plugins to:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PLUGINS = [&amp;#39;render_math&amp;#39;, &amp;#39;liquid.ipynb&amp;#39;]
+&lt;/pre&gt;&lt;/div&gt;
 
 
-<p>You should now be able to include a pointer to an .ipynb file that will be embedded in a blog post, by placeing <code>notebook path/to/notebook.ipynb</code> within curly-brace percent:</p>
-<style type="text/css">/*!
+&lt;p&gt;You should now be able to include a pointer to an .ipynb file that will be embedded in a blog post, by placeing &lt;code&gt;notebook path/to/notebook.ipynb&lt;/code&gt; within curly-brace percent:&lt;/p&gt;
+&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
 *
@@ -424,7 +371,7 @@ div.unrecognized_cell .inner_cell a:hover {
   text-decoration: none;
 }
 @media (max-width: 540px) {
-  div.unrecognized_cell > div.prompt {
+  div.unrecognized_cell &gt; div.prompt {
     display: none;
   }
 }
@@ -477,19 +424,19 @@ div.input_prompt {
   color: #303F9F;
   border-top: 1px solid transparent;
 }
-div.input_area > div.highlight {
+div.input_area &gt; div.highlight {
   margin: 0.4em;
   border: none;
   padding: 0px;
   background-color: transparent;
 }
-div.input_area > div.highlight > pre {
+div.input_area &gt; div.highlight &gt; pre {
   margin: 0px;
   border: none;
   padding: 0px;
   background-color: transparent;
 }
-/* The following gets added to the <head> if it is detected that the user has a
+/* The following gets added to the &lt;head&gt; if it is detected that the user has a
  * monospace font with inconsistent normal/bold/italic height.  See
  * notebookmain.js.  Such fonts will have keywords vertically offset with
  * respect to the rest of the text.  The user should select a better font.
@@ -535,7 +482,7 @@ div.input_area > div.highlight > pre {
 }
 /*
 
-Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+Original style from softwaremaniacs.org (c) Ivan Sagalaev &lt;Maniac@SoftwareManiacs.Org&gt;
 Adapted from GitHub theme
 
 */
@@ -997,7 +944,7 @@ div.text_cell {
   align-items: stretch;
 }
 @media (max-width: 540px) {
-  div.text_cell > div.prompt {
+  div.text_cell &gt; div.prompt {
     display: none;
   }
 }
@@ -1062,8 +1009,8 @@ h6:hover .anchor-link {
   font-size: 100%;
   font-style: italic;
 }
-</style>
-<style type="text/css">.highlight .hll { background-color: #ffffcc }
+&lt;/style&gt;
+&lt;style type="text/css"&gt;.highlight .hll { background-color: #ffffcc }
 .highlight  { background: #f8f8f8; }
 .highlight .c { color: #408080; font-style: italic } /* Comment */
 .highlight .err { border: 1px solid #FF0000 } /* Error */
@@ -1127,8 +1074,8 @@ h6:hover .anchor-link {
 .highlight .vc { color: #19177C } /* Name.Variable.Class */
 .highlight .vg { color: #19177C } /* Name.Variable.Global */
 .highlight .vi { color: #19177C } /* Name.Variable.Instance */
-.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
-<style type="text/css">
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */&lt;/style&gt;
+&lt;style type="text/css"&gt;
 /* Temporary definitions which will become obsolete with Notebook release 5.0 */
 .ansi-black-fg { color: #3E424D; }
 .ansi-black-bg { background-color: #3E424D; }
@@ -1164,48 +1111,48 @@ h6:hover .anchor-link {
 .ansi-white-intense-bg { background-color: #A1A6B2; }
 
 .ansi-bold { font-weight: bold; }
-</style>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">beta</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
+&lt;/style&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[39]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython2"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scipy.stats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;beta&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="k"&gt;matplotlib&lt;/span&gt; inline
 
 
-<span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">y1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_range</span><span class="p">])</span>
-<span class="n">y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_range</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">y1</span><span class="o">+</span><span class="n">y2</span><span class="p">)</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span>
-</pre></div>
+&lt;span class="n"&gt;x_range&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linspace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;y1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;beta&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pdf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;x_range&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;y2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;beta&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pdf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;1.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;x_range&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_range&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_range&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_range&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;y1&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;y2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mf"&gt;3.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
-</div>
-</div>
-</div>
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
 
 
-<div class="output_text output_subarea output_execute_result">
-<pre>[&lt;matplotlib.lines.Line2D at 0x113910c10&gt;]</pre>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[39]:&lt;/div&gt;
 
 
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgsAAAFkCAYAAACuFXjcAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;[&amp;lt;matplotlib.lines.Line2D at 0x113910c10&amp;gt;]&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div class="output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
+
+
+&lt;div class="output_png output_subarea "&gt;
+&lt;img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgsAAAFkCAYAAACuFXjcAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAAPYQAAD2EBqD+naQAAIABJREFUeJzs3XmczeX7x/HXPYuxZclOloSELDMke9bsoZSlsqWyRKIQ
 KQkhyVKpVEimRCIiIdm3GUv2LUu2smY3Y+7fHxff5MdwZs45n7Ncz8fjPGTmnPN5zzTmXOderttY
 a1FKKaWUupUQpwMopZRSyrdpsaCUUkqpRGmxoJRSSqlEabGglFJKqURpsaCUUkqpRGmxoJRSSqlE
@@ -1659,16 +1606,16 @@ h7dswK1lScJlP59r6jtUF5JSSimlVJV0NIRSSimlqqTJglJKKaWqpMmCUkoppaqkyYJSSimlqqTJ
 glJKKaWqpMmCUkoppaqkyYJSSimlqqTJglJKKaWqpMmCUkoppaqkyYJSSimlqqTJglJKKaWq9P8B
 nVcnkE7gF9AAAAAASUVORK5CYII=
 "
->
-</div>
+&gt;
+&lt;/div&gt;
 
-</div>
+&lt;/div&gt;
 
-</div>
-</div>
+&lt;/div&gt;
+&lt;/div&gt;
 
-</div>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
@@ -1694,33 +1641,33 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
         "}); ";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-</script>
+&lt;/script&gt;
 
 
-<p>See this site for additional details and options.</p>
-<h2>References</h2>
-<p>Most of the information in this post came from the following web pages:</p>
-<ul>
-<li><a href="http://nafiulis.me/making-a-static-blog-with-pelican.html">http://nafiulis.me/making-a-static-blog-with-pelican.html</a></li>
-<li><a href="http://docs.getpelican.com/en/3.0/getting_started.html">http://docs.getpelican.com/en/3.0/getting_started.html</a></li>
-<li><a href="http://blog.likewise.org/2016/08/switching-from-octopress-to-pelican/">http://blog.likewise.org/2016/08/switching-from-octopress-to-pelican/</a></li>
-<li><a href="http://octopress.org/docs/theme/styles/">http://octopress.org/docs/theme/styles/</a></li>
-<li><a href="http://aijazansari.com/2012/08/27/how-to-customize-octopress-theme/">http://aijazansari.com/2012/08/27/how-to-customize-octopress-theme/</a></li>
-</ul>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+&lt;p&gt;See this site for additional details and options.&lt;/p&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;p&gt;Most of the information in this post came from the following web pages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://nafiulis.me/making-a-static-blog-with-pelican.html"&gt;http://nafiulis.me/making-a-static-blog-with-pelican.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://docs.getpelican.com/en/3.0/getting_started.html"&gt;http://docs.getpelican.com/en/3.0/getting_started.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.likewise.org/2016/08/switching-from-octopress-to-pelican/"&gt;http://blog.likewise.org/2016/08/switching-from-octopress-to-pelican/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://octopress.org/docs/theme/styles/"&gt;http://octopress.org/docs/theme/styles/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://aijazansari.com/2012/08/27/how-to-customize-octopress-theme/"&gt;http://aijazansari.com/2012/08/27/how-to-customize-octopress-theme/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
         linebreak = "false";
 
     if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
     }
 
     var mathjaxscript = document.createElement('script');
     var location_protocol = (false) ? 'https' : document.location.protocol;
-    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
     mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
@@ -1763,54 +1710,4 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-</script></div>
-    <footer>
-<p class="meta">
-  <span class="byline author vcard">
-    Posted by <span class="fn">
-        Dallas Card
-    </span>
-  </span>
-<time datetime="2016-11-20T03:14:00-08:00" pubdate>Sun 20 November 2016</time>  <span class="categories">
-    <a class='category' href='/category/meta.html'>Meta</a>
-  </span>
-</p><div class="sharing">
-</div>    </footer>
-  </article>
-
-</div>
-<aside class="sidebar">
-  <section>
-    <h1>Recent Posts</h1>
-    <ul id="recent_posts">
-      <li class="post">
-          <a href="/building-this-blog.html">Building this Blog</a>
-      </li>
-    </ul>
-  </section>
-  <section>
-      
-    <h1>Categories</h1>
-    <ul id="recent_posts">
-        <li><a href="/category/meta.html">Meta</a></li>
-    </ul>
-  </section>
- 
-
-  <section>
-  <h1>Tags</h1>
-  </section>
-
-
-
-</aside>    </div>
-  </div>
-  <footer role="contentinfo"><p>
-    Copyright &copy;  2016  Dallas Card &mdash;
-  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
-</p></footer>
-  <script src="/theme/js/modernizr-2.0.js"></script>
-  <script src="/theme/js/ender.js"></script>
-  <script src="/theme/js/octopress.js" type="text/javascript"></script>
-</body>
-</html>
+&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Dallas Card</dc:creator><pubDate>Sun, 20 Nov 2016 03:14:00 -0800</pubDate><guid isPermaLink="false">tag:,2016-11-20:building-this-blog.html</guid></item></channel></rss>
