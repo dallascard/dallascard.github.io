@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building this Blog &mdash; Github Blog</title>
+  <title>Building this Blog &mdash; Reasonable Explanations</title>
   <meta name="author" content="Dallas Card">
 
 
@@ -31,7 +31,7 @@
 
 <body>
   <header role="banner"><hgroup>
-  <h1><a href="/">Github Blog</a></h1>
+  <h1><a href="/">Reasonable Explanations</a></h1>
 </hgroup></header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
 </ul>
@@ -39,10 +39,7 @@
 
 <ul class="main-navigation">
       <li class="active">
-        <a href="/category/meta.html">Meta</a>
-      </li>
-      <li >
-        <a href="/category/python.html">Python</a>
+        <a href="/category/archive.html">Archive</a>
       </li>
 </ul></nav>
   <div id="main">
@@ -1687,9 +1684,29 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
 
 
 <p>See this site for additional details and options.</p>
+<h2>Setting a default category</h2>
+<p>Pelican gives you two different ways to index pots: Categories and Tags. Since this is just a conventional blog, I don't really have cateogies per say. So, copying others, I decided to just use "Archive" as a catch-all category, and save tags as a way to allow posts to be grouped together. Rather than typing in <code>Category: Archive</code> into every post, you can set a default category in <code>pelicanconf.py</code>:</p>
+<div class="highlight"><pre><span></span>DEFAULT_CATEGORY = &#39;Archive&#39;
+</pre></div>
+
+
+<p>Since I now only have one category, it no longer makes sense to display a list of categories in the sidebar. To remove this, I had to edit the theme. Specifically, I removed the following lines from <code>pelican-octopress-theme/templates/_includes/sidebar.html</code>:</p>
+<div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">categories</span> <span class="cp">%}</span>
+<span class="nt">&lt;section&gt;</span>
+
+  <span class="nt">&lt;h1&gt;</span>Categories<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;recent_posts&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">category</span><span class="o">,</span> <span class="nv">articles</span> <span class="k">in</span> <span class="nv">categories</span> <span class="cp">%}</span>
+      <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">SITEURL</span> <span class="cp">}}</span><span class="s">/</span><span class="cp">{{</span> <span class="nv">category.url</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">category</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+  <span class="nt">&lt;/ul&gt;</span>
+  <span class="nt">&lt;/section&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+
+
 <h2>Final changes and future plans</h2>
-<p>The last thing I chose to do here is to edit <code>pelicanconf.py</code> again to comment out the lines for LINKS and SOCIAL. </p>
-<p>There is way more to be customized, including the header, sidebar, footer, tags, and so on, but I'm leaving all of that for future work.</p>
+<p>The last thing I chose to do here is to edit <code>pelicanconf.py</code> again to comment out the lines for LINKS and SOCIAL. There are many more ways to edit the appearance of the site, but I'm leaving all that for future plans.</p>
 <h2>References</h2>
 <p>Most of the information in this post came from the following pages:</p>
 <ul>
@@ -1764,8 +1781,10 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
     </span>
   </span>
 <time datetime="2016-11-20T03:14:00-08:00" pubdate>Sun 20 November 2016</time>  <span class="categories">
-    <a class='category' href='/category/meta.html'>Meta</a>
+    <a class='category' href='/category/archive.html'>Archive</a>
   </span>
+  <span class="categories">
+    <a class="category" href="/tag/meta.html">meta</a>  </span>
 </p><div class="sharing">
 </div>    </footer>
   </article>
@@ -1783,19 +1802,10 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
       </li>
     </ul>
   </section>
-  <section>
-      
-    <h1>Categories</h1>
-    <ul id="recent_posts">
-        <li><a href="/category/meta.html">Meta</a></li>
-        <li><a href="/category/python.html">Python</a></li>
-    </ul>
-  </section>
- 
 
   <section>
   <h1>Tags</h1>
-  </section>
+    <a href="/tag/python.html">python</a>,    <a href="/tag/meta.html">meta</a>  </section>
 
 
 
