@@ -41,6 +41,9 @@
       <li class="active">
         <a href="/category/meta.html">Meta</a>
       </li>
+      <li >
+        <a href="/category/python.html">Python</a>
+      </li>
 </ul></nav>
   <div id="main">
     <div id="content">
@@ -1167,9 +1170,9 @@ h6:hover .anchor-link {
 </style>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In [39]:</div>
 <div class="inner_cell">
-    <div class="input_area">
+<div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">beta</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -1183,27 +1186,17 @@ h6:hover .anchor-link {
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">y1</span><span class="o">+</span><span class="n">y2</span><span class="p">)</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span>
 </pre></div>
-
 </div>
 </div>
 </div>
-
 <div class="output_wrapper">
 <div class="output">
-
-
 <div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
-
-
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;matplotlib.lines.Line2D at 0x113910c10&gt;]</pre>
+<pre>[<matplotlib.lines.Line2D at 0x113910c10>]</pre>
 </div>
-
 </div>
-
 <div class="output_area"><div class="prompt"></div>
-
-
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgsAAAFkCAYAAACuFXjcAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAAPYQAAD2EBqD+naQAAIABJREFUeJzs3XmczeX7x/HXPYuxZclOloSELDMke9bsoZSlsqWyRKIQ
@@ -1658,15 +1651,11 @@ jp1XoeQy2+uefh3etFX3fV7hWk0W3FDm2LkVVgJ5ZYnD34BgT78Ob9qcKPPJwI6yMj+EnXehqadf
 h7dswK1lScJlP59r6jtUF5JSSimlVJV0NIRSSimlqqTJglJKKaWqpMmCUkoppaqkyYJSSimlqqTJ
 glJKKaWqpMmCUkoppaqkyYJSSimlqqTJglJKKaWqpMmCUkoppaqkyYJSSimlqqTJglJKKaWq9P8B
 nVcnkE7gF9AAAAAASUVORK5CYII=
-"
->
-</div>
-
-</div>
-
+">
+</img></div>
 </div>
 </div>
-
+</div>
 </div>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
@@ -1698,8 +1687,11 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
 
 
 <p>See this site for additional details and options.</p>
+<h2>Final changes and future plans</h2>
+<p>The last thing I chose to do here is to edit <code>pelicanconf.py</code> again to comment out the lines for LINKS and SOCIAL. </p>
+<p>There is way more to be customized, including the header, sidebar, footer, tags, and so on, but I'm leaving all of that for future work.</p>
 <h2>References</h2>
-<p>Most of the information in this post came from the following web pages:</p>
+<p>Most of the information in this post came from the following pages:</p>
 <ul>
 <li><a href="http://nafiulis.me/making-a-static-blog-with-pelican.html">http://nafiulis.me/making-a-static-blog-with-pelican.html</a></li>
 <li><a href="http://docs.getpelican.com/en/3.0/getting_started.html">http://docs.getpelican.com/en/3.0/getting_started.html</a></li>
@@ -1784,6 +1776,9 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
+          <a href="/installing-python-on-stampede.html">Installing Python on Stampede</a>
+      </li>
+      <li class="post">
           <a href="/building-this-blog.html">Building this Blog</a>
       </li>
     </ul>
@@ -1793,6 +1788,7 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
     <h1>Categories</h1>
     <ul id="recent_posts">
         <li><a href="/category/meta.html">Meta</a></li>
+        <li><a href="/category/python.html">Python</a></li>
     </ul>
   </section>
  
