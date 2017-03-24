@@ -1,5 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Github Blog</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2016-11-20T03:14:00-08:00</updated><entry><title>Building this Blog</title><link href="/building-this-blog.html" rel="alternate"></link><published>2016-11-20T03:14:00-08:00</published><updated>2016-11-20T03:14:00-08:00</updated><author><name>Dallas Card</name></author><id>tag:,2016-11-20:building-this-blog.html</id><summary type="html">&lt;p&gt;Like many people out there, I've decided to use Pelican to manage a static blog hosted on Github. As is traditional, my first post is an overview of how I set this up.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Reasonable Explanations</title><link href="https://dallascard.github.io/" rel="alternate"></link><link href="https://dallascard.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dallascard.github.io/</id><updated>2017-03-19T12:00:00-07:00</updated><entry><title>The REINFORCE trick</title><link href="https://dallascard.github.io/the-reinforce-trick.html" rel="alternate"></link><updated>2017-03-19T12:00:00-07:00</updated><author><name>Dallas Card</name></author><id>tag:dallascard.github.io,2017-03-19:the-reinforce-trick.html</id><summary type="html">&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;There is a lot of excitement these days around reinforcement learning, but it can be a difficult area to dive into. As with much of machine learning, part of the difficulty stems from the fact that same idea often appears under multiple names. For example, it's incredibly useful to understand that "the backpropogation algorithm" is really just gradient descent applied to neural networks!&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;  Working through the math often reveals that a new idea is something we were already familiar with in a different guise.&lt;/p&gt;
+&lt;p&gt;In the domain of reinforcement learning, names like policy gradient, &lt;em&gt;REINFORCE&lt;/em&gt;, and so forth are often used with little exposition, and it's not always easy to find a simple explanation for these terms. It turns out however, that one particular flavour of reinforcment learning, known as &lt;em&gt;policy gradient&lt;/em&gt;, is especially approchable. Moreover, there is a cool connection to modern variational inference that perhaps helps to make both of these things more clear. &lt;/p&gt;
+&lt;h2&gt;Reinforcement Learning&lt;/h2&gt;
+&lt;p&gt;The basic idea of reinforcement learning is that we want to train an model to make a sequence of predictions, where after each prediction, we recieve a reward, and enter into a new state. In particular, assume we start at time &lt;span class="math"&gt;\(t=0\)&lt;/span&gt; in state &lt;span class="math"&gt;\(s_0\)&lt;/span&gt;. At each time step we will take some action &lt;span class="math"&gt;\(a_t\)&lt;/span&gt;. By taking that action, we will get some reward, &lt;span class="math"&gt;\(r_t\)&lt;/span&gt;, and end up in a new state, &lt;span class="math"&gt;\(s_{t+1}\)&lt;/span&gt;. By default we assume that the transition between states (the dynamics of the system) is governed by a stochastic process, which I will parameterize by &lt;span class="math"&gt;\(\phi\)&lt;/span&gt;,&lt;/p&gt;
+&lt;div class="math"&gt;$$r_t~, s_{t+1} \sim p(r_t~, s_{t+1}~|~s_t~, a_t ~; \phi)$$&lt;/div&gt;
+&lt;p&gt;As it turns out, I won't have anything to say about &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; here, but it helps to keep the dependence explicit for the sake of clarity. Obviously this general setting includes the case of deterministic dynamics as a special case.&lt;/p&gt;
+&lt;p&gt;To choose our actions, we will make use of a stochastic &lt;em&gt;policy&lt;/em&gt;, &lt;span class="math"&gt;\(\pi\)&lt;/span&gt;, which assigns a probability to each possible action, as a function only of our current state, &lt;span class="math"&gt;\(s_t\)&lt;/span&gt;, and parameters, &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$a_t \sim \pi(a_t~|~s_t ~; \theta)$$&lt;/div&gt;
+&lt;p&gt;A &lt;em&gt;trajectory&lt;/em&gt; is the name for a sequence of state, action, reward tuples   :&lt;/p&gt;
+&lt;div class="math"&gt;$$\tau = (s_0, a_0, r_0, s_1, a_1, r_1, ..., s_T, a_T, r_T) $$&lt;/div&gt;
+&lt;p&gt;The probability of a trajectory is just the product of the original transition and policy probabilities:&lt;/p&gt;
+&lt;div class="math"&gt;$$p(\tau ~; \theta, \phi) = \prod_{t=1}^T p(r_t~, s_{t+1} | s_t~, a_t ~; \phi) ~\pi(a_t | s_t ~; \theta) $$&lt;/div&gt;
+&lt;p&gt;Eventually we will end up in some terminal state, &lt;span class="math"&gt;\(s_T\)&lt;/span&gt;, at which point we will return the total reward, which is just the sum of the individual rewards accumulated along the way: &lt;span class="math"&gt;\(R(\tau) = \sum_t ~ r_t\)&lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;Policy Gradient&lt;/h2&gt;
+&lt;p&gt;The goal of reinforcement learning is to learn a good policy, one that will maximize our &lt;em&gt;expected reward&lt;/em&gt;, where the expectation is with respect to the trajectory.&lt;/p&gt;
+&lt;div class="math"&gt;$$ \underset{\theta}{\max} ~ \mathbb{E}_{p(\tau | \theta ~, \phi)} [R(\tau)]$$&lt;/div&gt;
+&lt;p&gt;Some approaches to reinforcement learning involve more complex modeling of the internal dynamics of the system. &lt;em&gt;Policy gradient&lt;/em&gt;, however, is a particularly simple approach. We will simply use sampled trajectories to try to adjust our policy so as to increase the expected reward using gradient ascent.&lt;/p&gt;
+&lt;p&gt;In particular, if we can compute a gradient, &lt;span class="math"&gt;\(\hat g\)&lt;/span&gt;, with respect to parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;, then we can simply use this to repeatedly adjust our parameters, according to some step size &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \hat g = \nabla_{\theta} ~ \mathbb{E}_{p(\tau | \theta ~, \phi)} [R(\tau)]$$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \theta \leftarrow \theta + \alpha \hat g$$&lt;/div&gt;
+&lt;h2&gt;The REINFORCE trick&lt;/h2&gt;
+&lt;p&gt;This seems simple enough, but there are a couple of problems.&lt;/p&gt;
+&lt;p&gt;The first and most obvious problem is that computing the gradient analytically is intractable, because it depends on the exponentially large space of trajectories. This in itself is not so big a problem as it seems, however, because we borrow an idea from stochastic gradient descent, and simply use samples to &lt;em&gt;approximate&lt;/em&gt; the gradient. &lt;/p&gt;
+&lt;p&gt;In this case, we could think of taking sample trajectories and use these to make a monte carlo approximation:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \tau_i \sim p(\tau ~;~ \theta, \phi), \quad i=1,\ldots,N$$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \hat g = \nabla_{\theta} ~ \mathbb{E}_{p(\tau | \theta ~, \phi)} [R(\tau)] \approx \frac{1}{N} \sum_{i=1}^N \nabla_{\theta} [R(\tau_i)]$$&lt;/div&gt;
+&lt;p&gt;There is an additional problem here, however. The only part of the gradient which was dependent on &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; was distribution governing the expectation! The reward is only a function of the trajectory, which, once we've taken a sample, is independent of &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;. Obviously, we can't differentiate with respect to &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; if it doesn't appear in the equation (or rather, the gradient would be zero).&lt;/p&gt;
+&lt;p&gt;To get around this, &lt;a href="http://www-anw.cs.umass.edu/~barto/courses/cs687/williams92simple.pdf"&gt;Williams (1992)&lt;/a&gt; proposed what has come to be known as the &lt;em&gt;REINFORCE&lt;/em&gt;, also sometimes referred to as the "likelihood ratio trick". Specifically, we can make use of the fact that&lt;/p&gt;
+&lt;div class="math"&gt;$$ \nabla_{\theta} p(z ~;~ \theta) = p(z ~;~ \theta)  \nabla_{\theta} \log p(z ; \theta)$$&lt;/div&gt;
+&lt;p&gt;(To convince yourself of this, just note that &lt;span class="math"&gt;\(\nabla_{\theta} \log p(z ; \theta) = \frac{1}{p(z ; \theta)} \nabla_{\theta} p(z ; \theta)\)&lt;/span&gt;; see &lt;a href="https://dl.acm.org/citation.cfm?id=84552"&gt;Glynn, 1990&lt;/a&gt; for details).&lt;/p&gt;
+&lt;p&gt;If we make use of this trick before doing a monte carlo approximation of the gradient, we get:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{align}
+\nabla_{\theta} ~ \mathbb{E}_{p(\tau | \theta ~, \phi)} [R(\tau)] &amp;amp;= \nabla_{\theta} \int_{\tau} p(\tau ; \theta, \phi) R[\tau] d\tau \\
+&amp;amp;= \int_{\tau} \nabla_{\theta} p(\tau ; \theta, \phi) R[\tau] d\tau \\
+&amp;amp;= \int_{\tau} p(\tau ; \theta, \phi) \nabla_{\theta}  \log p(\tau ; \theta, \phi) R[\tau] d\tau \\
+&amp;amp;= \mathbb{E}_{p(\tau | \theta ~, \phi)} [R(\tau) \nabla_{\theta}  \log p(\tau ; \theta, \phi)] \\ 
+&amp;amp;\approx \frac{1}{N} \sum_{i=1}^N [R(\tau_i) \nabla_{\theta}  \log p(\tau_i ; \theta, \phi)] 
+\end{align}&lt;/div&gt;
+&lt;p&gt;In this particular setting, we might go so far as to approximate the gradient with a single sample trajectory. The beautiful thing is that we can do this simply by using our current policy to generate actions, while letting the system determine our rewards and future states in response to those actions. Moreover, because the probability of a trajectory factors into the policy component and the state transition component, our approximation of the gradient ends up being only a function of the gradient of the log of our policy! &lt;/p&gt;
+&lt;p&gt;Assuming that we now have a single sample trajectory, &lt;span class="math"&gt;\(\tau\)&lt;/span&gt;, on each iteration, our approximation becomes:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{align}
+\nabla_{\theta} ~ \mathbb{E}_{p(\tau | \theta ~, \phi)} [R(\tau)] &amp;amp;\approx [R(\tau) \nabla_{\theta}  \log p(\tau ; \theta, \phi)] \\
+&amp;amp;= R(\tau) \sum_{t=1}^T \nabla_{\theta} [\log p(a_t | s_t ~;~ \theta) + \log p(r_t, s_{t+1} ~;~ s_t, a_t, \phi)] \\
+&amp;amp;= R(\tau) \sum_{t=1}^T \nabla_{\theta} \log p(a_t | s_t ~;~ \theta) \\
+\end{align}&lt;/div&gt;
+&lt;p&gt;Now, it turns out that this approximation will be very high variance, and so various further tricks, such as using a baseline (also known as "control variates" - basically, subtracting something from each reward, possibly a quantity which we learn as a function of each state), are needed to make this work. But, the basic idea is there.&lt;/p&gt;
+&lt;p&gt;Stepping back, observe that this algorithm works by randomly sampling a trajectory, and then adjusting the policy so as to make the sampled trajectory more likely &lt;em&gt;in propotion to the total recieved reward&lt;/em&gt;. When stated in those terms, it is all the more intuitive why a baseline would be important, so that we can actually decrease the likelihood of actions that lead to worse-than-expected rewards. &lt;/p&gt;
+&lt;p&gt;It is also worth noting that this approch doesn't distinguish between good and bad actions on a trajectory; all the actions taken are rewarded or punished together. While this seems like a rather blunt instrument, it is nevertheless a core element of recent successes like DeepMind's Alpha Go.&lt;/p&gt;
+&lt;h2&gt;Variational Inference&lt;/h2&gt;
+&lt;p&gt;This post is already getting long, so I won't cover all the relevant background variational inference, but I can't resist going over the way in which recent developments in VI have exploited the exact same idea.&lt;/p&gt;
+&lt;p&gt;The general setting in VI is that we want to approximate some posterior, &lt;span class="math"&gt;\(p(z|x ; \phi)\)&lt;/span&gt;. We assume that computing this posterior exactly is intractable, so we will instead approximate it with an approximating (variational) distribution, &lt;span class="math"&gt;\(q(z | x ; \theta)\)&lt;/span&gt;, which we assume to have a more tractable form.&lt;/p&gt;
+&lt;p&gt;There are a number of ways to derive the variational objective, but I think the simplest is assuming that we want to minimize the KL divergence between these two distributions:&lt;/p&gt;
+&lt;div class="math"&gt;$$\underset{\theta}{\min} \textrm{KL}(q(z|x;\theta)||p(z|x;\phi))$$&lt;/div&gt;
+&lt;p&gt;If we work through the math, we will eventually encounter a term like:&lt;/p&gt;
+&lt;div class="math"&gt;$$\nabla_{\theta} \mathbb{E}_{q(z|x;\theta)}[\log p(x, z ; \phi)]$$&lt;/div&gt;
+&lt;p&gt;Already, this should be looking familiar. &lt;/p&gt;
+&lt;p&gt;At this point, there are actually a couple of options. If &lt;span class="math"&gt;\(z\)&lt;/span&gt; is continuous, then we can use a clever reparameterization trick (&lt;a href="https://arxiv.org/abs/1312.6114"&gt;Kingma and Welling, 2014&lt;/a&gt;; &lt;a href="https://arxiv.org/abs/1401.4082"&gt;Rezende et al 2014&lt;/a&gt;), where we can re-express the distribution of &lt;span class="math"&gt;\(z\)&lt;/span&gt; as a function of an auxilliary variable, &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt;, which allows us to differentiate with respect to &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;, i.e.&lt;/p&gt;
+&lt;div class="math"&gt;$$\epsilon \sim N(0, I)$$&lt;/div&gt;
+&lt;div class="math"&gt;$$z = \mu(x; \theta) + \Sigma(x; \theta) \cdot \epsilon$$&lt;/div&gt;
+&lt;p&gt;For more details on this, see the original paper, or this excellent &lt;a href="https://arxiv.org/abs/1606.05908"&gt;turorial&lt;/a&gt; by Carl Doersch.&lt;/p&gt;
+&lt;p&gt;Here, however, we are more interested in something more similar to &lt;em&gt;REINFORCE&lt;/em&gt;, which alternately goes under the name of "Black Box variational inference" (&lt;a href="https://arxiv.org/abs/1401.0118"&gt;Raganath et al 2013&lt;/a&gt;) or "Neural variational inference" (&lt;a href="https://arxiv.org/abs/1402.0030"&gt;Mnih and Gregor, 2014&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;The idea is exactly the same as above. By using the log trick, we can preserve the dependence on &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; and approxiamte the gradient with an expectation:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{align}
+\nabla_{\theta} \mathbb{E}_{q(z|x;\theta)}[\log p(x, z ; \phi)] &amp;amp;= \mathbb{E}_{q(z|x;\theta)} [\log p(x, z; \phi) \nabla_{\theta} \log q(z | x; \theta)] \\
+&amp;amp;\approx \frac{1}{N} \sum_{i=1}^N \log p(x, z^{(i)} ; \phi) \nabla_{\theta} \log q(z^{(i)} | x ; \theta)
+\end{align}&lt;/div&gt;
+&lt;p&gt;As with reinforcement learning, there are some refinements needed in order to get this to work, and I encourage you to check out the papers, but this simply idea opens up a large space of possibilities, including using much more flexible variational distibutions that was previously possible, and more fully automated tools, such as &lt;a href="http://edwardlib.org/"&gt;Edward&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;In summary, &lt;em&gt;REINFORCE&lt;/em&gt; began as the name of a 25-year old algorithm, but has come to refer to the trick of re-expressing a gradient such that expectations can be approximated with monte carlo approximations. &lt;em&gt;Policy gradient&lt;/em&gt; is just gradient descent applied to the expected reward in a reinforcement learning setting, and black box / neural VI use the same trick to optimize a variational distribution. &lt;/p&gt;
+&lt;p&gt;For an even better expalnation of the same idea, check out this great &lt;a href="http://blog.shakirm.com/2015/11/machine-learning-trick-of-the-day-5-log-derivative-trick/"&gt;blog post&lt;/a&gt;
+ by Shakir Muhammed!&lt;/p&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.scholarpedia.org/article/Policy_gradient_methods"&gt;http://www.scholarpedia.org/article/Policy_gradient_methods&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Doersch C. Tutorial on Variational Autoencoders. 2016. &lt;a href="https://arxiv.org/abs/1606.05908"&gt;link&lt;/a&gt; &lt;/li&gt;
+&lt;li&gt;Glynn PW (1990). Likelihood ratio gradient estimation for stochastic systems. Communications of the ACM, 33(10):75–84, 1990. &lt;a href="https://dl.acm.org/citation.cfm?id=84552"&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Kingma DP and Welling M. Auto-Encoding Variational Bayes. &lt;em&gt;ICLR&lt;/em&gt;, 2014.&lt;a href="https://arxiv.org/abs/1312.6114"&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Mnih A and Gregor K. Neural variational inference and learning in belief networks. &lt;em&gt;ICML&lt;/em&gt;, 2014. &lt;a href="https://arxiv.org/abs/1402.0030"&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Raganath R, Gerrish S, Blei DM. Black Box Variational Inference. &lt;em&gt;AISTATS&lt;/em&gt;, 2014. &lt;a href="https://arxiv.org/abs/1401.0118"&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Rezende DJ, Mohamed S, and Wierstra, D. Stochastic Backpropagation and Approximate Inference in Deep Generative Models. &lt;em&gt;ICML&lt;/em&gt;, 2014. &lt;a href="https://arxiv.org/abs/1401.4082"&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Williams RJ. Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement Learning. In &lt;em&gt;Machine Learning&lt;/em&gt;, 8:229-256, 1992. &lt;a href="http://www-anw.cs.umass.edu/~barto/courses/cs687/williams92simple.pdf"&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="footnote"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Obviously "gradient descent" is additional terminology that might not be familiar to everyone, but I would argue it is a more general idea with broader applicability.&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary><category term="reinforcement learning"></category><category term="variational inference"></category></entry><entry><title>Installing python on Stampede</title><link href="https://dallascard.github.io/installing-python-on-stampede.html" rel="alternate"></link><updated>2016-11-25T03:14:00-08:00</updated><author><name>Dallas Card</name></author><id>tag:dallascard.github.io,2016-11-25:installing-python-on-stampede.html</id><summary type="html">&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;I was fortunate enough for a while to have access to Stampede, part of the Texas Advanced Computing Center, and one of the largest supercompters in the world.&lt;/p&gt;
+&lt;p&gt;The default setup is quite useful, but I eventually ran into a situation where I wanted to be able to install my own python (2.7) scientific stack. There were basically two reasons for this: First was to be able to take advantage of automatic offloading offered by Intel chips. Second was to be able to make use of the development version of a specific package (scikit-learn), which required installing it from source. &lt;/p&gt;
+&lt;p&gt;I eventually found all the instructions I needed on the web, but it took a while, so I decided to document the whole process here, in gruesome detail, in case I ever need to do it again, or if someone else wants to do the same. There are probably multiple ways to accomplish the same thing. This is what worked for me.&lt;/p&gt;
+&lt;h2&gt;Installing a Python scientific stack&lt;/h2&gt;
+&lt;p&gt;First, load the relevant modules. (Note that I needed to use these specific versions of intel and python to get this to work):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ module load intel/14.0.1.106
+$ module load python/2.7.6
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Second, create a new virtual environment, activate it, and set the PYTHONPATH variable:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;VENV&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$HOME&lt;/span&gt;/python
+$ virtualenv &lt;span class="nv"&gt;$VENV&lt;/span&gt;
+$ &lt;span class="nb"&gt;source&lt;/span&gt; &lt;span class="nv"&gt;$VENV&lt;/span&gt;/bin/activate
+$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PYTHONPATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$VENV&lt;/span&gt;/lib/python2.7/site-packages
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then, create a symbolic link for dealing with the lib64 directory&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ln -s &lt;span class="nv"&gt;$VENV&lt;/span&gt;/lib &lt;span class="nv"&gt;$VENV&lt;/span&gt;/lib64
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, download and unzip the basic packages needed for a scientific stack. For me this was Cython, numpy, and scipy. These versions are probably out of date now, but they are the ones that worked for me.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="nv"&gt;$HOME&lt;/span&gt;/python/downloads
+$ wget https://pypi.python.org/packages/c6/fe/97319581905de40f1be7015a0ea1bd336a756f6249914b148a17eefa75dc/Cython-0.24.1.tar.gz
+$ wget http://sourceforge.net/projects/numpy/files/NumPy/1.11.1/numpy-1.11.1.tar.gz
+$ wget http://sourceforge.net/projects/scipy/files/scipy/0.16.1/scipy-0.16.1.tar.gz
+$ tar -xzf *.tar.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Install Cython:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; Cython-0.24.1
+$ python setup.py install —prefix&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$VENV&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now we want to install numpy. This is where things get a bit tricky. Enter the directory, and load the fftw3 module:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ../numpy-1.11.1
+$ module load fftw3
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now we need to edit some files. In &lt;code&gt;numpy/distutils/intelccompiler.py&lt;/code&gt;, edit the &lt;code&gt;__init__&lt;/code&gt; method in the &lt;code&gt;IntelEM64TCCompilerclass&lt;/code&gt; to give more options to cc_exe:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;self.cc_exe = &amp;#39;icc -m64 -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost&amp;#39;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In &lt;code&gt;numpy/distutils/fcompiler/intel.py&lt;/code&gt;, edit the &lt;code&gt;get_flags(self)&lt;/code&gt; method in the &lt;code&gt;IntelEM64TFCompiler&lt;/code&gt; class so it returns these options:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;return [&amp;#39;-fPIC -xhost -openmp -fp-model strict&amp;#39;]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Also in that class, edit the &lt;code&gt;get_flags_opt(self)&lt;/code&gt; method (which previously held most of the above flags) so it returns nothing:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;return[]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now try to build and install numpy with the following options:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ python setup.py build --compiler&lt;span class="o"&gt;=&lt;/span&gt;intelem --fcompiler&lt;span class="o"&gt;=&lt;/span&gt;intelem &lt;span class="p"&gt;|&lt;/span&gt; tee build.log
+$ python setup.py install --prefix&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$VENV&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; tee install.log
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Next install scipy, also with compiler options:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ../scipy-0.16.1/
+$ python setup.py config --compiler&lt;span class="o"&gt;=&lt;/span&gt;intelem --fcompiler&lt;span class="o"&gt;=&lt;/span&gt;intelem build_clib --compiler&lt;span class="o"&gt;=&lt;/span&gt;intelem --fcompiler&lt;span class="o"&gt;=&lt;/span&gt;intelem build_ext --compiler&lt;span class="o"&gt;=&lt;/span&gt;intelem --fcompiler&lt;span class="o"&gt;=&lt;/span&gt;intelem install --prefix&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$VENV&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; tee build_install.log
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Finally, install ipython and test the configuration:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;ipython&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;ipython&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__version__&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__config__&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If things worked properly, this should show the links against MKL.&lt;/p&gt;
+&lt;p&gt;To use this configuration, add the following to each job to be submitted:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="n"&gt;load&lt;/span&gt; &lt;span class="n"&gt;intel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mf"&gt;14.0.1.106&lt;/span&gt;
+&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="n"&gt;load&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mf"&gt;2.7.6&lt;/span&gt;
+&lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;venvs&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;python2&lt;/span&gt;&lt;span class="mf"&gt;.7.6&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;activate&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To get it to use automatic offloading, also add these lines to the script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;export MKL_MIC_ENABLE=1
+export OMP_NUM_THREADS=16
+export MIC_OMP_NUM_THREADS=240
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Please let me know if this fails for you for any reason, although at the moment I no longer have access to Stampede to test this out...&lt;/p&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://cvw.cac.cornell.edu/python/compiling"&gt;https://cvw.cac.cornell.edu/python/compiling&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://software.intel.com/en-us/articles/numpyscipy-with-intel-mkl"&gt;https://software.intel.com/en-us/articles/numpyscipy-with-intel-mkl&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="python"></category></entry><entry><title>Building this Blog</title><link href="https://dallascard.github.io/building-this-blog.html" rel="alternate"></link><updated>2016-11-20T03:14:00-08:00</updated><author><name>Dallas Card</name></author><id>tag:dallascard.github.io,2016-11-20:building-this-blog.html</id><summary type="html">&lt;p&gt;Like many people out there, I've decided to use Pelican to manage a static blog hosted on Github. As is traditional, my first post is an overview of how I set this up.&lt;/p&gt;
 &lt;p&gt;All of this information is available elsewhere, but not all in one place. I wrote this up mostly as a record for myself, but also in case anyone else is trying to accomplish the same thing.&lt;/p&gt;
 &lt;h2&gt;Requirements&lt;/h2&gt;
 &lt;p&gt;I'll assume that you are familiar with git, Github, python, and markdown, although you don't need to be an expert is any of these. The main thing is knowing how to set up a repo on Github, manage it locally, and to have python installed.&lt;/p&gt;
@@ -1114,9 +1363,9 @@ h6:hover .anchor-link {
 &lt;/style&gt;
 &lt;div class="cell border-box-sizing code_cell rendered"&gt;
 &lt;div class="input"&gt;
-&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[39]:&lt;/div&gt;
+&lt;div class="prompt input_prompt"&gt;In [39]:&lt;/div&gt;
 &lt;div class="inner_cell"&gt;
-    &lt;div class="input_area"&gt;
+&lt;div class="input_area"&gt;
 &lt;div class=" highlight hl-ipython2"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scipy.stats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;beta&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
@@ -1130,27 +1379,17 @@ h6:hover .anchor-link {
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_range&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_range&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;y1&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;y2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mf"&gt;3.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
 &lt;div class="output_wrapper"&gt;
 &lt;div class="output"&gt;
-
-
 &lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[39]:&lt;/div&gt;
-
-
 &lt;div class="output_text output_subarea output_execute_result"&gt;
-&lt;pre&gt;[&amp;lt;matplotlib.lines.Line2D at 0x113910c10&amp;gt;]&lt;/pre&gt;
+&lt;pre&gt;[&lt;matplotlib.lines.Line2D at 0x113910c10&gt;]&lt;/pre&gt;
 &lt;/div&gt;
-
 &lt;/div&gt;
-
 &lt;div class="output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
-
-
 &lt;div class="output_png output_subarea "&gt;
 &lt;img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgsAAAFkCAYAAACuFXjcAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAAPYQAAD2EBqD+naQAAIABJREFUeJzs3XmczeX7x/HXPYuxZclOloSELDMke9bsoZSlsqWyRKIQ
@@ -1605,15 +1844,11 @@ jp1XoeQy2+uefh3etFX3fV7hWk0W3FDm2LkVVgJ5ZYnD34BgT78Ob9qcKPPJwI6yMj+EnXehqadf
 h7dswK1lScJlP59r6jtUF5JSSimlVJV0NIRSSimlqqTJglJKKaWqpMmCUkoppaqkyYJSSimlqqTJ
 glJKKaWqpMmCUkoppaqkyYJSSimlqqTJglJKKaWqpMmCUkoppaqkyYJSSimlqqTJglJKKaWq9P8B
 nVcnkE7gF9AAAAAASUVORK5CYII=
-"
-&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-
+"&gt;
+&lt;/img&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
@@ -1645,8 +1880,31 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
 
 
 &lt;p&gt;See this site for additional details and options.&lt;/p&gt;
+&lt;h2&gt;Setting a default category&lt;/h2&gt;
+&lt;p&gt;Pelican gives you two different ways to index pots: Categories and Tags. Since this is just a conventional blog, I don't really have cateogies per say. So, copying others, I decided to just use "Archive" as a catch-all category, and save tags as a way to allow posts to be grouped together. Rather than typing in &lt;code&gt;Category: Archive&lt;/code&gt; into every post, you can set a default category in &lt;code&gt;pelicanconf.py&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;DEFAULT_CATEGORY = &amp;#39;Archive&amp;#39;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Since I now only have one category, it no longer makes sense to display a list of categories in the sidebar. To remove this, I had to edit the theme. Specifically, I removed the following lines from &lt;code&gt;pelican-octopress-theme/templates/_includes/sidebar.html&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nv"&gt;categories&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;section&amp;gt;&lt;/span&gt;
+
+  &lt;span class="nt"&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Categories&lt;span class="nt"&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;ul&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;recent_posts&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;category&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;articles&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;categories&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;li&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;SITEURL&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="s"&gt;/&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;category.url&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;category&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+    &lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endfor&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/section&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endif&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Final changes and future plans&lt;/h2&gt;
+&lt;p&gt;The last thing I chose to do here is to edit &lt;code&gt;pelicanconf.py&lt;/code&gt; again to comment out the lines for LINKS and SOCIAL. There are many more ways to edit the appearance of the site, but I'm leaving all that for future plans.&lt;/p&gt;
 &lt;h2&gt;References&lt;/h2&gt;
-&lt;p&gt;Most of the information in this post came from the following web pages:&lt;/p&gt;
+&lt;p&gt;Most of the information in this post came from the following pages:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://nafiulis.me/making-a-static-blog-with-pelican.html"&gt;http://nafiulis.me/making-a-static-blog-with-pelican.html&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://docs.getpelican.com/en/3.0/getting_started.html"&gt;http://docs.getpelican.com/en/3.0/getting_started.html&lt;/a&gt;&lt;/li&gt;
@@ -1710,4 +1968,4 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary></entry></feed>
+&lt;/script&gt;</summary><category term="meta"></category></entry></feed>
