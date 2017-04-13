@@ -4,7 +4,8 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Tags &mdash; Reasonable Explanations</title>
+  <title>Search - Reasonable Explanations
+</title>
   <meta name="author" content="Dallas Card">
 
 
@@ -47,20 +48,28 @@
   </nav>
   <div id="main">
     <div id="content">
-<div>
-	<article role="article">
-    	<header>
-    		<h1 class="entry-title">Blog Tags</h1>
-    	</header>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js">
+</script>
+<script type="text/javascript" src="https://dallascard.github.io/theme/tipuesearch/tipuesearch_set.js"></script>
+<script type="text/javascript" src="https://dallascard.github.io/theme/tipuesearch/tipuesearch.min.js"></script>
 
-	<p>
-		<a href="https://dallascard.github.io/tag/meta.html">meta</a> (1)<br>
-		<a href="https://dallascard.github.io/tag/python.html">python</a> (1)<br>
-		<a href="https://dallascard.github.io/tag/reinforcement-learning.html">reinforcement learning</a> (1)<br>
-		<a href="https://dallascard.github.io/tag/variational-inference.html">variational inference</a> (1)<br>
-	</p>
-	</article>
-</div>
+<script>
+$(document).ready(function() {
+     $('#tipue_search_input').tipuesearch({
+         'show': 10,
+         'mode': 'json',
+         'contentLocation': 'https://dallascard.github.io/tipuesearch_content.json'
+     });
+});
+</script>
+
+<section id="content" class="body">
+
+<div align="center"><input type="text" size="60" id="tipue_search_input">
+<input type="button" id="tipue_search_button" value="Search"></div>
+<div id="tipue_search_content"></div>
+
+</section>
 <aside class="sidebar">
   <section>
     <h1>Recent Posts</h1>

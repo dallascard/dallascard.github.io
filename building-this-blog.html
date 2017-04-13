@@ -22,6 +22,8 @@
 
   <link href="https://dallascard.github.io/theme/css/main.css" media="screen, projection"
         rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="https://dallascard.github.io/theme/tipuesearch/tipuesearch.css">
 
   <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
         rel="stylesheet" type="text/css">
@@ -41,7 +43,10 @@
       <li class="active">
         <a href="https://dallascard.github.io/category/archive.html">Archive</a>
       </li>
-</ul></nav>
+</ul>    <form id="searchform" action="search.html" onsubmit="return (this.elements['q'].value.length > 0)">
+        <input id="searchbox" type="text" name="q" size="12" placeholder="Search">
+    </form>
+  </nav>
   <div id="main">
     <div id="content">
 <div>
@@ -86,7 +91,7 @@ needed by Pelican.
 &gt; What will be the default language of this web site? <span class="o">[</span>en<span class="o">]</span> 
 &gt; Do you want to specify a URL prefix? e.g., http://example.com   <span class="o">(</span>Y/n<span class="o">)</span> n
 &gt; Do you want to <span class="nb">enable</span> article pagination? <span class="o">(</span>Y/n<span class="o">)</span> 
-&gt; How many articles per page <span class="k">do</span> you want? <span class="o">[</span>10<span class="o">]</span> 
+&gt; How many articles per page <span class="k">do</span> you want? <span class="o">[</span><span class="m">10</span><span class="o">]</span> 
 &gt; What is your <span class="nb">time</span> zone? <span class="o">[</span>Europe/Paris<span class="o">]</span> US/Pacific
 &gt; Do you want to generate a Fabfile/Makefile to automate generation and publishing? <span class="o">(</span>Y/n<span class="o">)</span> 
 &gt; Do you want an auto-reload <span class="p">&amp;</span> simpleHTTP script to assist with theme and site development? <span class="o">(</span>Y/n<span class="o">)</span> 
@@ -350,6 +355,7 @@ div.cell.selected.jupyter-soft-selected {
   }
 }
 div.inner_cell {
+  min-width: 0;
   /* Old browsers */
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -370,11 +376,6 @@ div.inner_cell {
   box-flex: 1;
   /* Modern browsers */
   flex: 1;
-}
-@-moz-document url-prefix() {
-  div.inner_cell {
-    overflow-x: hidden;
-  }
 }
 /* input_area and input_prompt must match in top border and margin for alignment */
 div.input_area {
@@ -1112,8 +1113,10 @@ h6:hover .anchor-link {
 .highlight .mh { color: #666666 } /* Literal.Number.Hex */
 .highlight .mi { color: #666666 } /* Literal.Number.Integer */
 .highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
 .highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
 .highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
 .highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
 .highlight .s2 { color: #BA2121 } /* Literal.String.Double */
 .highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
@@ -1124,9 +1127,11 @@ h6:hover .anchor-link {
 .highlight .s1 { color: #BA2121 } /* Literal.String.Single */
 .highlight .ss { color: #19177C } /* Literal.String.Symbol */
 .highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
 .highlight .vc { color: #19177C } /* Name.Variable.Class */
 .highlight .vg { color: #19177C } /* Name.Variable.Global */
 .highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
 <style type="text/css">
 /* Temporary definitions which will become obsolete with Notebook release 5.0 */
@@ -1188,12 +1193,14 @@ h6:hover .anchor-link {
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[39]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>[<matplotlib.lines.Line2D at 0x113910c10>]</pre>
 </div>
 </div>
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgsAAAFkCAYAAACuFXjcAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAAPYQAAD2EBqD+naQAAIABJREFUeJzs3XmczeX7x/HXPYuxZclOloSELDMke9bsoZSlsqWyRKIQ
@@ -1654,6 +1661,7 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
 </div>
 </div>
 </div>
+
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -1789,10 +1797,6 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
 </div>    </footer>
   </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
-  </section>
 </div>
 <aside class="sidebar">
   <section>
@@ -1825,16 +1829,5 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
   <script src="https://dallascard.github.io/theme/js/modernizr-2.0.js"></script>
   <script src="https://dallascard.github.io/theme/js/ender.js"></script>
   <script src="https://dallascard.github.io/theme/js/octopress.js" type="text/javascript"></script>
-  <script type="text/javascript">
-    var disqus_shortname = 'https-dallascard-github-io';
-    var disqus_identifier = '/building-this-blog.html';
-    var disqus_url = 'https://dallascard.github.io/building-this-blog.html';
-    var disqus_title = 'Building this Blog';
-    (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-     })();
-  </script>
 </body>
 </html>

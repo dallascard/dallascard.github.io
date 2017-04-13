@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Reasonable Explanations</title><link href="https://dallascard.github.io/" rel="alternate"></link><link href="https://dallascard.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dallascard.github.io/</id><updated>2017-03-19T12:00:00-07:00</updated><entry><title>The REINFORCE trick</title><link href="https://dallascard.github.io/the-reinforce-trick.html" rel="alternate"></link><updated>2017-03-19T12:00:00-07:00</updated><author><name>Dallas Card</name></author><id>tag:dallascard.github.io,2017-03-19:the-reinforce-trick.html</id><summary type="html">&lt;h2&gt;Background&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Reasonable Explanations</title><link href="https://dallascard.github.io/" rel="alternate"></link><link href="https://dallascard.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dallascard.github.io/</id><updated>2017-03-19T12:00:00-07:00</updated><entry><title>The REINFORCE trick</title><link href="https://dallascard.github.io/the-reinforce-trick.html" rel="alternate"></link><published>2017-03-19T12:00:00-07:00</published><updated>2017-03-19T12:00:00-07:00</updated><author><name>Dallas Card</name></author><id>tag:dallascard.github.io,2017-03-19:the-reinforce-trick.html</id><summary type="html">&lt;h2&gt;Background&lt;/h2&gt;
 &lt;p&gt;There is a lot of excitement these days around reinforcement learning, but it can be a difficult area to dive into. As with much of machine learning, part of the difficulty stems from the fact that same idea often appears under multiple names. For example, it's incredibly useful to understand that "the backpropogation algorithm" is really just gradient descent applied to neural networks!&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;  Working through the math often reveals that a new idea is something we were already familiar with in a different guise.&lt;/p&gt;
 &lt;p&gt;In the domain of reinforcement learning, names like policy gradient, &lt;em&gt;REINFORCE&lt;/em&gt;, and so forth are often used with little exposition, and it's not always easy to find a simple explanation for these terms. It turns out however, that one particular flavour of reinforcment learning, known as &lt;em&gt;policy gradient&lt;/em&gt;, is especially approchable. Moreover, there is a cool connection to modern variational inference that perhaps helps to make both of these things more clear. &lt;/p&gt;
 &lt;h2&gt;Reinforcement Learning&lt;/h2&gt;
@@ -146,7 +146,7 @@
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="reinforcement learning"></category><category term="variational inference"></category></entry><entry><title>Installing python on Stampede</title><link href="https://dallascard.github.io/installing-python-on-stampede.html" rel="alternate"></link><updated>2016-11-25T03:14:00-08:00</updated><author><name>Dallas Card</name></author><id>tag:dallascard.github.io,2016-11-25:installing-python-on-stampede.html</id><summary type="html">&lt;h2&gt;Background&lt;/h2&gt;
+&lt;/script&gt;</summary><category term="reinforcement learning"></category><category term="variational inference"></category></entry><entry><title>Installing python on Stampede</title><link href="https://dallascard.github.io/installing-python-on-stampede.html" rel="alternate"></link><published>2016-11-25T03:14:00-08:00</published><updated>2016-11-25T03:14:00-08:00</updated><author><name>Dallas Card</name></author><id>tag:dallascard.github.io,2016-11-25:installing-python-on-stampede.html</id><summary type="html">&lt;h2&gt;Background&lt;/h2&gt;
 &lt;p&gt;I was fortunate enough for a while to have access to Stampede, part of the Texas Advanced Computing Center, and one of the largest supercompters in the world.&lt;/p&gt;
 &lt;p&gt;The default setup is quite useful, but I eventually ran into a situation where I wanted to be able to install my own python (2.7) scientific stack. There were basically two reasons for this: First was to be able to take advantage of automatic offloading offered by Intel chips. Second was to be able to make use of the development version of a specific package (scikit-learn), which required installing it from source. &lt;/p&gt;
 &lt;p&gt;I eventually found all the instructions I needed on the web, but it took a while, so I decided to document the whole process here, in gruesome detail, in case I ever need to do it again, or if someone else wants to do the same. There are probably multiple ways to accomplish the same thing. This is what worked for me.&lt;/p&gt;
@@ -248,7 +248,7 @@ export MIC_OMP_NUM_THREADS=240
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://cvw.cac.cornell.edu/python/compiling"&gt;https://cvw.cac.cornell.edu/python/compiling&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://software.intel.com/en-us/articles/numpyscipy-with-intel-mkl"&gt;https://software.intel.com/en-us/articles/numpyscipy-with-intel-mkl&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="python"></category></entry><entry><title>Building this Blog</title><link href="https://dallascard.github.io/building-this-blog.html" rel="alternate"></link><updated>2016-11-20T03:14:00-08:00</updated><author><name>Dallas Card</name></author><id>tag:dallascard.github.io,2016-11-20:building-this-blog.html</id><summary type="html">&lt;p&gt;Like many people out there, I've decided to use Pelican to manage a static blog hosted on Github. As is traditional, my first post is an overview of how I set this up.&lt;/p&gt;
+&lt;/ul&gt;</summary><category term="python"></category></entry><entry><title>Building this Blog</title><link href="https://dallascard.github.io/building-this-blog.html" rel="alternate"></link><published>2016-11-20T03:14:00-08:00</published><updated>2016-11-20T03:14:00-08:00</updated><author><name>Dallas Card</name></author><id>tag:dallascard.github.io,2016-11-20:building-this-blog.html</id><summary type="html">&lt;p&gt;Like many people out there, I've decided to use Pelican to manage a static blog hosted on Github. As is traditional, my first post is an overview of how I set this up.&lt;/p&gt;
 &lt;p&gt;All of this information is available elsewhere, but not all in one place. I wrote this up mostly as a record for myself, but also in case anyone else is trying to accomplish the same thing.&lt;/p&gt;
 &lt;h2&gt;Requirements&lt;/h2&gt;
 &lt;p&gt;I'll assume that you are familiar with git, Github, python, and markdown, although you don't need to be an expert is any of these. The main thing is knowing how to set up a repo on Github, manage it locally, and to have python installed.&lt;/p&gt;
@@ -282,7 +282,7 @@ needed by Pelican.
 &amp;gt; What will be the default language of this web site? &lt;span class="o"&gt;[&lt;/span&gt;en&lt;span class="o"&gt;]&lt;/span&gt; 
 &amp;gt; Do you want to specify a URL prefix? e.g., http://example.com   &lt;span class="o"&gt;(&lt;/span&gt;Y/n&lt;span class="o"&gt;)&lt;/span&gt; n
 &amp;gt; Do you want to &lt;span class="nb"&gt;enable&lt;/span&gt; article pagination? &lt;span class="o"&gt;(&lt;/span&gt;Y/n&lt;span class="o"&gt;)&lt;/span&gt; 
-&amp;gt; How many articles per page &lt;span class="k"&gt;do&lt;/span&gt; you want? &lt;span class="o"&gt;[&lt;/span&gt;10&lt;span class="o"&gt;]&lt;/span&gt; 
+&amp;gt; How many articles per page &lt;span class="k"&gt;do&lt;/span&gt; you want? &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; 
 &amp;gt; What is your &lt;span class="nb"&gt;time&lt;/span&gt; zone? &lt;span class="o"&gt;[&lt;/span&gt;Europe/Paris&lt;span class="o"&gt;]&lt;/span&gt; US/Pacific
 &amp;gt; Do you want to generate a Fabfile/Makefile to automate generation and publishing? &lt;span class="o"&gt;(&lt;/span&gt;Y/n&lt;span class="o"&gt;)&lt;/span&gt; 
 &amp;gt; Do you want an auto-reload &lt;span class="p"&gt;&amp;amp;&lt;/span&gt; simpleHTTP script to assist with theme and site development? &lt;span class="o"&gt;(&lt;/span&gt;Y/n&lt;span class="o"&gt;)&lt;/span&gt; 
@@ -546,6 +546,7 @@ div.cell.selected.jupyter-soft-selected {
   }
 }
 div.inner_cell {
+  min-width: 0;
   /* Old browsers */
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -566,11 +567,6 @@ div.inner_cell {
   box-flex: 1;
   /* Modern browsers */
   flex: 1;
-}
-@-moz-document url-prefix() {
-  div.inner_cell {
-    overflow-x: hidden;
-  }
 }
 /* input_area and input_prompt must match in top border and margin for alignment */
 div.input_area {
@@ -1308,8 +1304,10 @@ h6:hover .anchor-link {
 .highlight .mh { color: #666666 } /* Literal.Number.Hex */
 .highlight .mi { color: #666666 } /* Literal.Number.Integer */
 .highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
 .highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
 .highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
 .highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
 .highlight .s2 { color: #BA2121 } /* Literal.String.Double */
 .highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
@@ -1320,9 +1318,11 @@ h6:hover .anchor-link {
 .highlight .s1 { color: #BA2121 } /* Literal.String.Single */
 .highlight .ss { color: #19177C } /* Literal.String.Symbol */
 .highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
 .highlight .vc { color: #19177C } /* Name.Variable.Class */
 .highlight .vg { color: #19177C } /* Name.Variable.Global */
 .highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */&lt;/style&gt;
 &lt;style type="text/css"&gt;
 /* Temporary definitions which will become obsolete with Notebook release 5.0 */
@@ -1384,12 +1384,14 @@ h6:hover .anchor-link {
 &lt;/div&gt;
 &lt;div class="output_wrapper"&gt;
 &lt;div class="output"&gt;
-&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[39]:&lt;/div&gt;
+&lt;div class="output_area"&gt;
+&lt;div class="prompt output_prompt"&gt;Out[39]:&lt;/div&gt;
 &lt;div class="output_text output_subarea output_execute_result"&gt;
 &lt;pre&gt;[&lt;matplotlib.lines.Line2D at 0x113910c10&gt;]&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
+&lt;div class="output_area"&gt;
+&lt;div class="prompt"&gt;&lt;/div&gt;
 &lt;div class="output_png output_subarea "&gt;
 &lt;img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgsAAAFkCAYAAACuFXjcAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAAPYQAAD2EBqD+naQAAIABJREFUeJzs3XmczeX7x/HXPYuxZclOloSELDMke9bsoZSlsqWyRKIQ
@@ -1850,6 +1852,7 @@ nVcnkE7gF9AAAAAASUVORK5CYII=
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
