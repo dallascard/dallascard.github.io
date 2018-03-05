@@ -7,11 +7,11 @@
 &lt;p&gt;This is hopefully well known to most people, but to use matplotlib in an iPython notebook, start with the inline "magic" command, and then import pyplot from matplotlib.:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt; &lt;span class="n"&gt;inline&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
-&lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="n"&gt;practice&lt;/span&gt; &lt;span class="n"&gt;seems&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="n"&gt;always&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;figure&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;axes&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="sb"&gt;`plt.subplots()`&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
 
-&lt;span class="p"&gt;:::&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;
-&lt;span class="n"&gt;fig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;subplots&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;p&gt;The best practice seems is always to make a figure and a set of axes with the &lt;code&gt;plt.subplots()&lt;/code&gt; function.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;fig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;subplots&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
