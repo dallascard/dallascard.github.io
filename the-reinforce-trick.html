@@ -23,8 +23,6 @@
   <link href="https://dallascard.github.io/theme/css/main.css" media="screen, projection"
         rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="https://dallascard.github.io/theme/tipuesearch/tipuesearch.css">
-
   <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
         rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
@@ -43,10 +41,7 @@
       <li class="active">
         <a href="https://dallascard.github.io/category/archive.html">Archive</a>
       </li>
-</ul>    <form id="searchform" action="search.html" onsubmit="return (this.elements['q'].value.length > 0)">
-        <input id="searchbox" type="text" name="q" size="12" placeholder="Search">
-    </form>
-  </nav>
+</ul></nav>
   <div id="main">
     <div id="content">
 <div>
@@ -58,7 +53,7 @@
 </header>
 
   <div class="entry-content"><h2>Background</h2>
-<p>There is a lot of excitement these days around reinforcement learning, but it can be a difficult area to dive into. As with much of machine learning, part of the difficulty stems from the fact that same idea often appears under multiple names. For example, it's incredibly useful to understand that "the backpropogation algorithm" is really just gradient descent applied to neural networks!<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>  Working through the math often reveals that a new idea is something we were already familiar with in a different guise.</p>
+<p>There is a lot of excitement these days around reinforcement learning, but it can be a difficult area to dive into. As with much of machine learning, part of the difficulty stems from the fact that same idea often appears under multiple names. For example, it's incredibly useful to understand that "the backpropogation algorithm" is really just gradient descent applied to neural networks!<sup id="fnref-1"><a class="footnote-ref" href="#fn-1">1</a></sup>  Working through the math often reveals that a new idea is something we were already familiar with in a different guise.</p>
 <p>In the domain of reinforcement learning, names like policy gradient, <em>REINFORCE</em>, and so forth are often used with little exposition, and it's not always easy to find a simple explanation for these terms. It turns out however, that one particular flavour of reinforcment learning, known as <em>policy gradient</em>, is especially approchable. Moreover, there is a cool connection to modern variational inference that perhaps helps to make both of these things more clear. </p>
 <h2>Reinforcement Learning</h2>
 <p>The basic idea of reinforcement learning is that we want to train an model to make a sequence of predictions, where after each prediction, we recieve a reward, and enter into a new state. In particular, assume we start at time <span class="math">\(t=0\)</span> in state <span class="math">\(s_0\)</span>. At each time step we will take some action <span class="math">\(a_t\)</span>. By taking that action, we will get some reward, <span class="math">\(r_t\)</span>, and end up in a new state, <span class="math">\(s_{t+1}\)</span>. By default we assume that the transition between states (the dynamics of the system) is governed by a stochastic process, which I will parameterize by <span class="math">\(\phi\)</span>,</p>
@@ -141,10 +136,10 @@
 <li>Williams RJ. Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement Learning. In <em>Machine Learning</em>, 8:229-256, 1992. <a href="http://www-anw.cs.umass.edu/~barto/courses/cs687/williams92simple.pdf">link</a></li>
 </ul>
 <div class="footnote">
-<hr />
+<hr>
 <ol>
-<li id="fn:1">
-<p>Obviously "gradient descent" is additional terminology that might not be familiar to everyone, but I would argue it is a more general idea with broader applicability.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<li id="fn-1">
+<p>Obviously "gradient descent" is additional terminology that might not be familiar to everyone, but I would argue it is a more general idea with broader applicability.&#160;<a class="footnote-backref" href="#fnref-1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -160,11 +155,9 @@
     }
 
     var mathjaxscript = document.createElement('script');
-    var location_protocol = (false) ? 'https' : document.location.protocol;
-    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
     mathjaxscript[(window.opera ? "innerHTML" : "text")] =
         "MathJax.Hub.Config({" +
         "    config: ['MMLorHTML.js']," +
@@ -221,11 +214,18 @@
 </div>    </footer>
   </article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
 </div>
 <aside class="sidebar">
   <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
+      <li class="post">
+          <a href="https://dallascard.github.io/swapping-the-y-axis-in-matplotlib.html">Swapping the y-axis in matplotlib</a>
+      </li>
       <li class="post">
           <a href="https://dallascard.github.io/the-reinforce-trick.html">The REINFORCE trick</a>
       </li>
@@ -240,18 +240,29 @@
 
   <section>
   <h1>Tags</h1>
-    <a href="https://dallascard.github.io/tag/python.html">python</a>,    <a href="https://dallascard.github.io/tag/meta.html">meta</a>,    <a href="https://dallascard.github.io/tag/reinforcement-learning.html">reinforcement learning</a>,    <a href="https://dallascard.github.io/tag/variational-inference.html">variational inference</a>  </section>
+    <a href="https://dallascard.github.io/tag/python.html">python</a>,    <a href="https://dallascard.github.io/tag/meta.html">meta</a>,    <a href="https://dallascard.github.io/tag/reinforcement-learning.html">reinforcement learning</a>,    <a href="https://dallascard.github.io/tag/matplotlib.html">matplotlib</a>,    <a href="https://dallascard.github.io/tag/variational-inference.html">variational inference</a>  </section>
 
 
 
 </aside>    </div>
   </div>
   <footer role="contentinfo"><p>
-    Copyright &copy;  2016&ndash;2017  Dallas Card &mdash;
+    Copyright &copy;  2016&ndash;2018  Dallas Card &mdash;
   <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
 </p></footer>
   <script src="https://dallascard.github.io/theme/js/modernizr-2.0.js"></script>
   <script src="https://dallascard.github.io/theme/js/ender.js"></script>
   <script src="https://dallascard.github.io/theme/js/octopress.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var disqus_shortname = 'https-dallascard-github-io';
+    var disqus_identifier = '/the-reinforce-trick.html';
+    var disqus_url = 'https://dallascard.github.io/the-reinforce-trick.html';
+    var disqus_title = 'The REINFORCE trick';
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+  </script>
 </body>
 </html>

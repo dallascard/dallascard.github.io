@@ -21,8 +21,6 @@
   <link href="https://dallascard.github.io/theme/css/main.css" media="screen, projection"
         rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="https://dallascard.github.io/theme/tipuesearch/tipuesearch.css">
-
   <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
         rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
@@ -41,13 +39,25 @@
       <li >
         <a href="https://dallascard.github.io/category/archive.html">Archive</a>
       </li>
-</ul>    <form id="searchform" action="search.html" onsubmit="return (this.elements['q'].value.length > 0)">
-        <input id="searchbox" type="text" name="q" size="12" placeholder="Search">
-    </form>
-  </nav>
+</ul></nav>
   <div id="main">
     <div id="content">
 <div class="blog-index">
+  		<article>
+<header>
+      <h1 class="entry-title">
+        <a href="https://dallascard.github.io/swapping-the-y-axis-in-matplotlib.html">Swapping the y-axis in matplotlib</a>
+      </h1>
+    <p class="meta">
+<time datetime="2018-03-04T00:00:00-08:00" pubdate>Sun 04 March 2018</time>    </p>
+</header>
+
+  <div class="entry-content"><p>Partly as notes for myself, I've decided to start posting snippets of code for various plotting functionality in python's matplotlib. </p>
+<p>Matplotlib is quite powerful, and can be used to make a huge variety of plots, but it can also be frustrating, espeically when you're trying to figure out how to …</p></div>
+  <footer>
+    <a rel="full-article" href="https://dallascard.github.io/swapping-the-y-axis-in-matplotlib.html">Read On &crarr;</a>
+  </footer>
+  		</article>
   		<article>
 <header>
       <h1 class="entry-title">
@@ -58,7 +68,7 @@
 </header>
 
   <div class="entry-content"><h2>Background</h2>
-<p>There is a lot of excitement these days around reinforcement learning, but it can be a difficult area to dive into. As with much of machine learning, part of the difficulty stems from the fact that same idea often appears under multiple names. For example, it's incredibly useful ...</p></div>
+<p>There is a lot of excitement these days around reinforcement learning, but it can be a difficult area to dive into. As with much of machine learning, part of the difficulty stems from the fact that same idea often appears under multiple names. For example, it's incredibly useful to …</p></div>
   <footer>
     <a rel="full-article" href="https://dallascard.github.io/the-reinforce-trick.html">Read On &crarr;</a>
   </footer>
@@ -74,7 +84,7 @@
 
   <div class="entry-content"><h2>Background</h2>
 <p>I was fortunate enough for a while to have access to Stampede, part of the Texas Advanced Computing Center, and one of the largest supercompters in the world.</p>
-<p>The default setup is quite useful, but I eventually ran into a situation where I wanted to be able to install ...</p></div>
+<p>The default setup is quite useful, but I eventually ran into a situation where I wanted to be able to install …</p></div>
   <footer>
     <a rel="full-article" href="https://dallascard.github.io/installing-python-on-stampede.html">Read On &crarr;</a>
   </footer>
@@ -89,7 +99,7 @@
 </header>
 
   <div class="entry-content"><p>Like many people out there, I've decided to use Pelican to manage a static blog hosted on Github. As is traditional, my first post is an overview of how I set this up.</p>
-<p>All of this information is available elsewhere, but not all in one place. I wrote this ...</p></div>
+<p>All of this information is available elsewhere, but not all in one place. I wrote this up …</p></div>
   <footer>
     <a rel="full-article" href="https://dallascard.github.io/building-this-blog.html">Read On &crarr;</a>
   </footer>
@@ -102,6 +112,9 @@
   <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
+      <li class="post">
+          <a href="https://dallascard.github.io/swapping-the-y-axis-in-matplotlib.html">Swapping the y-axis in matplotlib</a>
+      </li>
       <li class="post">
           <a href="https://dallascard.github.io/the-reinforce-trick.html">The REINFORCE trick</a>
       </li>
@@ -116,18 +129,26 @@
 
   <section>
   <h1>Tags</h1>
-    <a href="https://dallascard.github.io/tag/python.html">python</a>,    <a href="https://dallascard.github.io/tag/meta.html">meta</a>,    <a href="https://dallascard.github.io/tag/reinforcement-learning.html">reinforcement learning</a>,    <a href="https://dallascard.github.io/tag/variational-inference.html">variational inference</a>  </section>
+    <a href="https://dallascard.github.io/tag/python.html">python</a>,    <a href="https://dallascard.github.io/tag/meta.html">meta</a>,    <a href="https://dallascard.github.io/tag/reinforcement-learning.html">reinforcement learning</a>,    <a href="https://dallascard.github.io/tag/matplotlib.html">matplotlib</a>,    <a href="https://dallascard.github.io/tag/variational-inference.html">variational inference</a>  </section>
 
 
 
 </aside>    </div>
   </div>
   <footer role="contentinfo"><p>
-    Copyright &copy;  2016&ndash;2017  Dallas Card &mdash;
+    Copyright &copy;  2016&ndash;2018  Dallas Card &mdash;
   <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
 </p></footer>
   <script src="https://dallascard.github.io/theme/js/modernizr-2.0.js"></script>
   <script src="https://dallascard.github.io/theme/js/ender.js"></script>
   <script src="https://dallascard.github.io/theme/js/octopress.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var disqus_shortname = 'https-dallascard-github-io';
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+  </script>
 </body>
 </html>
