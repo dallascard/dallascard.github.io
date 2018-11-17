@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Changing the font in matplotlib &mdash; Reasonable Explanations</title>
+  <meta name="author" content="Dallas Card">
+
+
+
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="https://dallascard.github.io/favicon.png" rel="icon">
+
+  <link href="https://dallascard.github.io/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+  
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="https://dallascard.github.io/">Reasonable Explanations</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+<ul class="main-navigation">
+      <li class="active">
+        <a href="https://dallascard.github.io/category/archive.html">Archive</a>
+      </li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">Changing the font in matplotlib</h1>
+    <p class="meta">
+<time datetime="2018-11-17T00:00:00-08:00" pubdate>Sat 17 November 2018</time>    </p>
+</header>
+
+  <div class="entry-content"><p>I recently submitted a paper to an ACM conference (FAT*), which required the use of the Libertine font. The document text was easy to change of course, (thanks to LaTeX), but the system complained beacuse the figures I had made using matplotlib contained the wrong font!</p>
+<p>This turns out to be an easy thing to fix, but it took me a while to figure out how to do it, so I thought I would share my step-by-step process here.</p>
+<p>This guide assumes that you are using Linux. Specifically, this worked for me on CentOS Linux release 7.5.1804, python 3.6.5, and matplotlib 2.2.2.</p>
+<p><strong>Step 1</strong>: download the desired font. The Libertine font is available <a href="http://libertine-fonts.org/download/">here</a>. </p>
+<p><strong>Step 2</strong>: Move the downloaded file to a temp directory and unzip it.</p>
+<p><code>unzip libertine.zip</code></p>
+<p><strong>Step 3</strong>: Move the OTF files to the directory <code>.local/share/fonts/</code>. (First create this directory if it doesn't exist).</p>
+<p><code>mv libertine/opentype/*.otf ~/.local/share/fonts/</code></p>
+<p><strong>Step 4</strong>: Clear and rebuild the font cacehe.</p>
+<p><code>fc-cache -f -v</code></p>
+<p>(at this point, you can delete the temp directory)</p>
+<p><strong>Step 5</strong>: Get python to recognize the new font. To do this start, a python interpreter (such as ipython), and run:</p>
+<p><code>from matplotlib.font_manager import _rebuild; _rebuild()</code></p>
+<p><strong>Step 6</strong>: To see the list of fonts that are available (and to make sure that it includes the Libertine fonts), run:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.font_manager</span> <span class="kn">as</span> <span class="nn">font_manager</span>
+<span class="n">fonts</span> <span class="o">=</span> <span class="p">[</span><span class="n">font</span> <span class="k">for</span> <span class="n">font</span> <span class="ow">in</span> <span class="n">font_manager</span><span class="o">.</span><span class="n">findSystemFonts</span><span class="p">()]</span>
+<span class="n">fonts</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="n">fonts</span>
+</pre></div>
+
+
+<p>You should see several LibLibertine fonts in the list, such as <code>~/.local/share/fonts/LinBiolinum_R.otf</code></p>
+<p><strong>Step 7</strong>: In your plotting script, tell it which font to use, and to use LaTeX. (I use <code>mpl.use('Agg')</code> because I'm running over an ssh connection).</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">expanduser</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="kn">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.font_manager</span> <span class="kn">as</span> <span class="nn">font_manager</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="n">fontpath</span> <span class="o">=</span> <span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/.local/share/fonts/LinLibertine_R.otf&#39;</span><span class="p">)</span>
+<span class="n">prop</span> <span class="o">=</span> <span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="n">fontpath</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+
+
+<p><strong>Step 8</strong>: Plot something and save it</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;figure.pdf&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>If everything has worked properly, this should not complain, and you will have your figure with the correct font!</p></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">
+        Dallas Card
+    </span>
+  </span>
+<time datetime="2018-11-17T00:00:00-08:00" pubdate>Sat 17 November 2018</time>  <span class="categories">
+    <a class='category' href='https://dallascard.github.io/category/archive.html'>Archive</a>
+  </span>
+  <span class="categories">
+    <a class="category" href="https://dallascard.github.io/tag/python.html">python</a>,    <a class="category" href="https://dallascard.github.io/tag/matplotlib.html">matplotlib</a>,    <a class="category" href="https://dallascard.github.io/tag/fonts.html">fonts</a>  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="https://dallascard.github.io/changing-the-font-in-matplotlib.html">Changing the font in matplotlib</a>
+      </li>
+      <li class="post">
+          <a href="https://dallascard.github.io/working-with-multiple-plots-in-matplotlib.html">Working with multiple plots in matplotlib</a>
+      </li>
+      <li class="post">
+          <a href="https://dallascard.github.io/swapping-the-y-axis-in-matplotlib.html">Swapping the y-axis in matplotlib</a>
+      </li>
+      <li class="post">
+          <a href="https://dallascard.github.io/the-reinforce-trick.html">The REINFORCE trick</a>
+      </li>
+      <li class="post">
+          <a href="https://dallascard.github.io/installing-python-on-stampede.html">Installing python on Stampede</a>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+  <h1>Tags</h1>
+    <a href="https://dallascard.github.io/tag/python.html">python</a>,    <a href="https://dallascard.github.io/tag/fonts.html">fonts</a>,    <a href="https://dallascard.github.io/tag/reinforcement-learning.html">reinforcement learning</a>,    <a href="https://dallascard.github.io/tag/subplots.html">subplots</a>,    <a href="https://dallascard.github.io/tag/meta.html">meta</a>,    <a href="https://dallascard.github.io/tag/matplotlib.html">matplotlib</a>,    <a href="https://dallascard.github.io/tag/variational-inference.html">variational inference</a>  </section>
+
+
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2016&ndash;2018  Dallas Card &mdash;
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  <script src="https://dallascard.github.io/theme/js/modernizr-2.0.js"></script>
+  <script src="https://dallascard.github.io/theme/js/ender.js"></script>
+  <script src="https://dallascard.github.io/theme/js/octopress.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var disqus_shortname = 'https-dallascard-github-io';
+    var disqus_identifier = '/changing-the-font-in-matplotlib.html';
+    var disqus_url = 'https://dallascard.github.io/changing-the-font-in-matplotlib.html';
+    var disqus_title = 'Changing the font in matplotlib';
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+  </script>
+</body>
+</html>
